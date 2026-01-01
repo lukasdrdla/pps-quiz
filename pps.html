@@ -1,0 +1,1710 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PPS Quiz - Procvičování</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, #00d9ff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            background: rgba(255,255,255,0.1);
+            padding: 15px 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-box span {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #00d9ff;
+        }
+
+        .question-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .question-card:hover {
+            border-color: rgba(0,217,255,0.3);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .question-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .question-number {
+            background: linear-gradient(135deg, #00d9ff, #00ff88);
+            color: #1a1a2e;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .question-type {
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.1);
+            color: #aaa;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #e0e0e0;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .option {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .option:hover:not(.disabled) {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(0,217,255,0.5);
+            transform: translateX(5px);
+        }
+
+        .option.selected {
+            border-color: #00d9ff;
+            background: rgba(0,217,255,0.1);
+        }
+
+        .option.correct {
+            border-color: #00ff88;
+            background: rgba(0,255,136,0.15);
+        }
+
+        .option.incorrect {
+            border-color: #ff4757;
+            background: rgba(255,71,87,0.15);
+        }
+
+        .option.disabled {
+            cursor: default;
+        }
+
+        .option-letter {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .option.correct .option-letter {
+            background: #00ff88;
+            color: #1a1a2e;
+        }
+
+        .option.incorrect .option-letter {
+            background: #ff4757;
+            color: #fff;
+        }
+
+        .text-input-container {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .text-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 15px 20px;
+            border-radius: 12px;
+            border: 2px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .text-input:focus {
+            border-color: #00d9ff;
+        }
+
+        .text-input.correct {
+            border-color: #00ff88;
+            background: rgba(0,255,136,0.15);
+        }
+
+        .text-input.incorrect {
+            border-color: #ff4757;
+            background: rgba(255,71,87,0.15);
+        }
+
+        .check-btn {
+            padding: 15px 30px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, #00d9ff, #00ff88);
+            color: #1a1a2e;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .check-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0,217,255,0.4);
+        }
+
+        .check-btn:disabled {
+            opacity: 0.5;
+            cursor: default;
+            transform: none;
+        }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+            font-weight: 500;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: rgba(0,255,136,0.15);
+            color: #00ff88;
+            border: 1px solid rgba(0,255,136,0.3);
+        }
+
+        .feedback.incorrect {
+            background: rgba(255,71,87,0.15);
+            color: #ff4757;
+            border: 1px solid rgba(255,71,87,0.3);
+        }
+
+        .reset-btn {
+            display: block;
+            margin: 40px auto;
+            padding: 15px 40px;
+            border-radius: 30px;
+            border: 2px solid #00d9ff;
+            background: transparent;
+            color: #00d9ff;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .reset-btn:hover {
+            background: #00d9ff;
+            color: #1a1a2e;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            background: transparent;
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            border-color: #00d9ff;
+            color: #00d9ff;
+        }
+
+        .multi-note {
+            font-size: 0.85rem;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        .question-image {
+            max-width: 100%;
+            border-radius: 10px;
+            margin: 15px 0;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .question-card {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-btn">← Zpět na menu</a>
+        <header>
+            <h1>PPS Quiz</h1>
+            <p style="color: #888;">Procvičování testových otázek</p>
+        </header>
+
+        <div class="stats">
+            <div class="stat-box">
+                Správně: <span id="correct-count">0</span>
+            </div>
+            <div class="stat-box">
+                Špatně: <span id="incorrect-count">0</span>
+            </div>
+            <div class="stat-box">
+                Zbývá: <span id="remaining-count">101</span>
+            </div>
+        </div>
+
+        <div id="questions-container"></div>
+
+        <button class="reset-btn" onclick="resetQuiz()">Resetovat quiz</button>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                id: 1,
+                text: "Jaká je maximální přenosová rychlost ADSL2++ pro DL v Mb/s (celé číslo bez znaménka)?",
+                type: "text",
+                answer: "40"
+            },
+            {
+                id: 2,
+                text: "Je možné u ADSL připojení v témže okamžiku:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "pouze přenášet data do Internetu" },
+                    { letter: "b", text: "nepřerušovaně přenášet data do Internetu a zároveň telefonovat" },
+                    { letter: "c", text: "telefonovat i přenášet data do Internetu pomocí TDM" },
+                    { letter: "d", text: "pouze telefonovat" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 3,
+                text: "Jaká je maximální rychlost u přípojky pomocí 230V pro DL v Mb/s (celé číslo bez znaménka)?",
+                type: "text",
+                answer: "85"
+            },
+            {
+                id: 4,
+                text: "Má-li provider 4 účastníky s kapacitou linky 2Mb/s a sám má odchozí linku do Internetu o kapacitě 4Mb/s, jde o agregaci:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "4:1" },
+                    { letter: "b", text: "8:1" },
+                    { letter: "c", text: "2:1" },
+                    { letter: "d", text: "1:8" },
+                    { letter: "e", text: "1:2" },
+                    { letter: "f", text: "1:4" }
+                ],
+                answer: ["c"]
+            },
+            {
+                id: 5,
+                text: "Jaký multiplex používají sítě založené na 'technologii' CDMA:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "vícenásobný přístup pomocí kódového dělení" },
+                    { letter: "b", text: "časový multiplex" },
+                    { letter: "c", text: "frekvenční multiplex" },
+                    { letter: "d", text: "ani jeden z uvedených" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 6,
+                text: "Připojení počítače pomocí pevné linky a analogového modemu se jmenuje:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "ATM" },
+                    { letter: "b", text: "ADSL" },
+                    { letter: "c", text: "Dial-up" },
+                    { letter: "d", text: "ISDN" }
+                ],
+                answer: ["c"]
+            },
+            {
+                id: 7,
+                text: "Jakou rychlost má B kanál u ISDN:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "384" },
+                    { letter: "b", text: "1536" },
+                    { letter: "c", text: "64" },
+                    { letter: "d", text: "16" },
+                    { letter: "e", text: "1920" }
+                ],
+                answer: ["c"]
+            },
+            {
+                id: 8,
+                text: "ISDN BRA přípojka má tyto kanály:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "5xH0 a 1D" },
+                    { letter: "b", text: "2xB a 1D" },
+                    { letter: "c", text: "1xH12 a 1D" },
+                    { letter: "d", text: "30xB a 1D" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 9,
+                text: "FUP je",
+                type: "single",
+                options: [
+                    { letter: "a", text: "omezení připojení na některé servery po překročení stanoveného limitu pro přenos dat do konce období" },
+                    { letter: "b", text: "omezení délky denního připojení po překročení stanoveného limitu pro přenos dat do konce období" },
+                    { letter: "c", text: "omezení denní doby, v které může být účastník připojen po překročení stanoveného limitu pro přenos dat do konce období" },
+                    { letter: "d", text: "omezení rychlosti přenosu dat po překročení stanoveného limitu pro přenos dat do konce období" }
+                ],
+                answer: ["d"]
+            },
+            {
+                id: 10,
+                text: "Jaké přenosové technologie se používají pro přenos dat mezi adaptérem pro rozvody 230V a PC:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "COM" },
+                    { letter: "b", text: "USB" },
+                    { letter: "c", text: "Ethernet" },
+                    { letter: "d", text: "IrDA" },
+                    { letter: "e", text: "LPT" }
+                ],
+                answer: ["b", "c"]
+            },
+            {
+                id: 11,
+                text: "Je možné u analogové telefonní linky v témže okamžiku provozovat následující druhy provozu v různých časových úsecích:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "linka slouží jen pro přenos dat, analogový telefon není možné připojit" },
+                    { letter: "b", text: "pouze přenášet data do Internetu" },
+                    { letter: "c", text: "přenášet data do Internetu a zároveň telefonovat" },
+                    { letter: "d", text: "pouze telefonovat" }
+                ],
+                answer: ["b", "d"]
+            },
+            {
+                id: 12,
+                text: "Jaké typy běžně používaných Dial-up modemů pro PC znáte:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "interní PCI" },
+                    { letter: "b", text: "interní AMR" },
+                    { letter: "c", text: "externí COM" },
+                    { letter: "d", text: "externí IEEE 1394" },
+                    { letter: "e", text: "PCMCIA" },
+                    { letter: "f", text: "externí USB" },
+                    { letter: "g", text: "interní AGP" }
+                ],
+                answer: ["a", "b", "c", "e", "f"]
+            },
+            {
+                id: 13,
+                text: "Jaké přenosové technologie se používají pro přenos dat mezi kabelovým modemem a PC (CATV):",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "Ethernet" },
+                    { letter: "b", text: "LPT" },
+                    { letter: "c", text: "USB" },
+                    { letter: "d", text: "COM" },
+                    { letter: "e", text: "IrDA" }
+                ],
+                answer: ["a", "c"]
+            },
+            {
+                id: 14,
+                text: "Na S/T sběrnici u ISDN je možné přímo připojit:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "ISDN modem" },
+                    { letter: "b", text: "ISDN telefon" },
+                    { letter: "c", text: "analogový telefon" },
+                    { letter: "d", text: "PC" }
+                ],
+                answer: ["a", "b"]
+            },
+            {
+                id: 15,
+                text: "Je možné u ISDN připojení v témže okamžiku na rozdíl od Dialup:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "přenášet data po Internetu a zároveň telefonovat" },
+                    { letter: "b", text: "pouze telefonovat" },
+                    { letter: "c", text: "ISDN připojení je určeno pouze pro přenos dat, není možné přes něj vést hovory" },
+                    { letter: "d", text: "ISDN připojení je určeno pouze pro přenos hovorů, není možné přes něj přenášet data" },
+                    { letter: "e", text: "pouze přenášet data do Internetu" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 16,
+                text: "Připojení počítače pomocí pevné linky využívající S/T sběrnici se jmenuje:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "ATM" },
+                    { letter: "b", text: "ADSL" },
+                    { letter: "c", text: "ISDN" },
+                    { letter: "d", text: "Dial-up" }
+                ],
+                answer: ["c"]
+            },
+            {
+                id: 17,
+                text: "Pro připojení PC a telefonu u ADSL potřebujeme:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "DSL modem" },
+                    { letter: "b", text: "splitter" },
+                    { letter: "c", text: "ISDN modem" },
+                    { letter: "d", text: "ukončovací zařízení NT1" },
+                    { letter: "e", text: "TA adaptér" }
+                ],
+                answer: ["a", "b"]
+            },
+            {
+                id: 18,
+                text: "Je možné provozovat na jedné telefonní lince ISDN i ADSL ve stejný okamžik:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "jen u některých verzí ADSL" },
+                    { letter: "b", text: "v daný okamžik buď ISDN nebo ADSL ve všech verzích ADSL" },
+                    { letter: "c", text: "nelze na jedné telefonní lince provozovat ISDN a ADSL" },
+                    { letter: "d", text: "u všech verzí ADSL" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 19,
+                text: "V kterém zařízení se oddělují signály pro PC a TV u přípojky CATV:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "signály obecně není nutné oddělovat" },
+                    { letter: "b", text: "v kabelovém modemu" },
+                    { letter: "c", text: "v externím splitteru" },
+                    { letter: "d", text: "v účastnické zásuvce" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 20,
+                text: "K připojení CATV potřebujete:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "analogový modem" },
+                    { letter: "b", text: "neupravenou televizní zásuvku" },
+                    { letter: "c", text: "splitter" },
+                    { letter: "d", text: "zařízení NT-1" },
+                    { letter: "e", text: "kabelový modem" },
+                    { letter: "f", text: "upravenou televizní zásuvku (vestavěný splitter)" }
+                ],
+                answer: ["e", "f"]
+            },
+            {
+                id: 21,
+                text: "Maximálně kolik TS používá GPRS/EDGE v běžně používaných třídách 1 až 12 (celé číslo bez znaménka)?",
+                type: "text",
+                answer: "5"
+            },
+            {
+                id: 22,
+                text: "Z kterých částí se skládá systém GSM:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "externích telekomunikačních sítí" },
+                    { letter: "b", text: "operátorů" },
+                    { letter: "c", text: "celulárního systému GSM" }
+                ],
+                answer: ["a", "c"]
+            },
+            {
+                id: 23,
+                text: "Jaká je maximální přenosová rychlost u EDGE na 1 TS v kb/s (číslo bez znaménka):",
+                type: "text",
+                answer: "59.2"
+            },
+            {
+                id: 24,
+                text: "Na kolik radiových kanálů je rozděleno pásmo 1800 MHz (celé číslo bez znaménka):",
+                type: "text",
+                answer: "374"
+            },
+            {
+                id: 25,
+                text: "U sítí GSM s GPRS je skupina zařízení B charakterizována:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "při připojení pomocí GPRS, pokud nepřenášíme data, umí přijímat hovory i SMS, při přenosu dat pomocí GPRS je pro další komunikaci nedostupný. Většina telefonů s GPRS" },
+                    { letter: "b", text: "telefon umí přijímat hovory i SMS společně s daty GPRS" },
+                    { letter: "c", text: "zařízení umožňuje pouze přenos GPRS dat, není možné přes něj provozovat hlasové služby" },
+                    { letter: "d", text: "při připojení pomocí GPRS je pro hlasové služby nedostupný (nikdo se vám nedovolá), např. PCMCIA GPRS karty" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 26,
+                text: "Jaký typ modulace používá GSM pro EDGE?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "OFDM" },
+                    { letter: "b", text: "QAM" },
+                    { letter: "c", text: "GMSK" },
+                    { letter: "d", text: "8-PSK" },
+                    { letter: "e", text: "QPSK" }
+                ],
+                answer: ["d"]
+            },
+            {
+                id: 27,
+                text: "Jaké frekvenční pásma využívá GSM v Evropě:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "850 MHz" },
+                    { letter: "b", text: "1900 MHz" },
+                    { letter: "c", text: "900 MHz" },
+                    { letter: "d", text: "1800 MHz" }
+                ],
+                answer: ["c", "d"]
+            },
+            {
+                id: 28,
+                text: "Kterými parametry je určen fyzický kanál u GSM sítí:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "typem přenášeného burstu" },
+                    { letter: "b", text: "pořadovým číslem TS" },
+                    { letter: "c", text: "číslem RK" },
+                    { letter: "d", text: "pořadovým číslem v logickém kanálu" }
+                ],
+                answer: ["b", "c"]
+            },
+            {
+                id: 29,
+                text: "Kolik hovorů můžeme u HR GSM obecně přenést přes 1 RK (celé číslo bez znaménka):",
+                type: "text",
+                answer: "8"
+            },
+            {
+                id: 30,
+                text: "V jaké fázi vývoje se nachází klasická síť GSM (TDMA + FDMA):",
+                type: "single",
+                options: [
+                    { letter: "a", text: "2.5" },
+                    { letter: "b", text: "3" },
+                    { letter: "c", text: "2.75" },
+                    { letter: "d", text: "4" },
+                    { letter: "e", text: "2" }
+                ],
+                answer: ["e"]
+            },
+            {
+                id: 31,
+                text: "Jaký typ modulace používá GSM pro GPRS?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "GMSK" },
+                    { letter: "b", text: "QAM" },
+                    { letter: "c", text: "OFDM" },
+                    { letter: "d", text: "QPSK" },
+                    { letter: "e", text: "8-PSK" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 32,
+                text: "Logické kanály u GSM dělíme na:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "signalizační kanály - SC" },
+                    { letter: "b", text: "radiové kanály" },
+                    { letter: "c", text: "provozní kanály - TCH" },
+                    { letter: "d", text: "fyzické kanály" }
+                ],
+                answer: ["a", "c"]
+            },
+            {
+                id: 33,
+                text: "Jaká je maximální rychlost pohybující se GSM stanice v km (celé číslo bez znaménka):",
+                type: "text",
+                answer: "250"
+            },
+            {
+                id: 34,
+                text: "Kterou duplexní metodu používá T-Mobile u sítě UMTS:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "TDD" },
+                    { letter: "b", text: "FDD" },
+                    { letter: "c", text: "MDD" },
+                    { letter: "d", text: "LDD" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 35,
+                text: "Na kolik radiových kanálů je rozděleno pásmo 900 MHz (celé číslo bez znaménka)?",
+                type: "text",
+                answer: "124"
+            },
+            {
+                id: 36,
+                text: "Stanovte správné pořadí priorit u GSM sítí (od nejvyšší priority k nejnižší):",
+                type: "single",
+                options: [
+                    { letter: "a", text: "hovory/CSD -> HSCSD -> GPRS/EDGE" },
+                    { letter: "b", text: "HSCSD -> hovory/CSD -> GPRS/EDGE" },
+                    { letter: "c", text: "GPRS/EDGE -> HSCSD -> hovory/CSD" },
+                    { letter: "d", text: "HSCSD -> GPRS/EDGE -> hovory/CSD" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 37,
+                text: "Které typy GSM signalizačních kanálů znáte:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "BCCH" },
+                    { letter: "b", text: "TCH/H" },
+                    { letter: "c", text: "DCCH" },
+                    { letter: "d", text: "CCCH" },
+                    { letter: "e", text: "TCH/F" }
+                ],
+                answer: ["a", "c", "d"]
+            },
+            {
+                id: 38,
+                text: "Kolik hovorů můžeme u FR GSM obecně přenést přes 1 RK (celé číslo bez znaménka):",
+                type: "text",
+                answer: "8"
+            },
+            {
+                id: 39,
+                text: "Které konfigurace slotů patří k multislot třídě 10 GPRS/EDGE:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "4+1, 3+2" },
+                    { letter: "b", text: "3+1" },
+                    { letter: "c", text: "4+1" },
+                    { letter: "d", text: "4+1, 3+2, 2+3, 1+4" },
+                    { letter: "e", text: "2+1" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 40,
+                text: "Na obrázku je nakreslena struktura:",
+                image: "img/40.png",
+                type: "single",
+                options: [
+                    { letter: "a", text: "synchronizačních kanálů" },
+                    { letter: "b", text: "provozních kanálů" },
+                    { letter: "c", text: "signalizačních kanálů" },
+                    { letter: "d", text: "zpětnovazebních kanálů" }
+                ],
+                answer: ["c"]
+            },
+            {
+                id: 41,
+                text: "Která organizace v současné době vyvíjí sítě GSM:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "GSM" },
+                    { letter: "b", text: "ETSI" },
+                    { letter: "c", text: "ANSI" },
+                    { letter: "d", text: "IEEE" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 42,
+                text: "Na obrázku je znázorněn:",
+                image: "img/42.png",
+                type: "single",
+                options: [
+                    { letter: "a", text: "normální burst" },
+                    { letter: "b", text: "synchronizační burst" },
+                    { letter: "c", text: "přístupový burst" },
+                    { letter: "d", text: "burst pro kmitočtovou korekci" },
+                    { letter: "e", text: "prázdný burst" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 43,
+                text: "Maximálně kolik TS používá GPRS/EDGE v multislot třídě 12 pro UL (celé číslo bez znaménka)?",
+                type: "text",
+                answer: "4"
+            },
+            {
+                id: 44,
+                text: "Pomocí kolika TS se přenese u GSM sítí 1 burst (celé číslo):",
+                type: "text",
+                answer: "1"
+            },
+            {
+                id: 45,
+                text: "U sítí GSM a GPRS je skupina zařízení C charakterizována:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "telefon umí přijímat hovory i SMS společně s daty GPRS" },
+                    { letter: "b", text: "zařízení umožňuje pouze přenos GPRS dat, není možnost přes něj provozovat hlasové služby" },
+                    { letter: "c", text: "při připojení pomocí GPRS, pokud nepřenášíme data, umí přijímat hovory i SMS, při přenosu dat pomocí GPRS je pro další komunikaci nedostupný. Většina telefonů s GPRS" },
+                    { letter: "d", text: "při připojení pomocí GPRS je pro hlasové služby nedostupný (nikdo se vám nedovolá), např. PCMCIA GPRS karty" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 46,
+                text: "Jaký typ modulace používá GSM pro hovory:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "GMSK" },
+                    { letter: "b", text: "QPSK" },
+                    { letter: "c", text: "QAM" },
+                    { letter: "d", text: "OFDM" },
+                    { letter: "e", text: "8-PSK" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 47,
+                text: "Na obrázku je zakreslena struktura:",
+                image: "img/47.png",
+                type: "single",
+                options: [
+                    { letter: "a", text: "provozního kanálu" },
+                    { letter: "b", text: "signálního kanálu" },
+                    { letter: "c", text: "zpětnovazebního kanálu" },
+                    { letter: "d", text: "synchronizačního kanálu" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 48,
+                text: "U protokolu OSPF:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "jen sousední směrovače si předávají celé své směrovací tabulky (obsahující 'vzdálenostní vektory')" },
+                    { letter: "b", text: "jen sousední směrovače si předávají údaje o průchodnosti cest k sousedům" },
+                    { letter: "c", text: "všechny směrovače si navzájem předávají celé své směrovací tabulky (obsahující 'vzdálenostní vektory')" },
+                    { letter: "d", text: "všechny směrovače navzájem si předávají jen údaje o průchodnosti cest k sousedům" }
+                ],
+                answer: ["d"]
+            },
+            {
+                id: 49,
+                text: "Které protokoly pracují na bázi algoritmu Vector-distance:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "BGP" },
+                    { letter: "b", text: "OSPF" },
+                    { letter: "c", text: "RIP a IGRP" },
+                    { letter: "d", text: "RIP2" }
+                ],
+                answer: ["c", "d"]
+            },
+            {
+                id: 50,
+                text: "Které protokoly pracují na bázi algoritmu Link-state:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "OSPF" },
+                    { letter: "b", text: "BGP" },
+                    { letter: "c", text: "RIP2" },
+                    { letter: "d", text: "RIP" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 51,
+                text: "U protokolu RIP se jako metrika používá:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "zpoždění na cestě" },
+                    { letter: "b", text: "okamžité zatížení cesty" },
+                    { letter: "c", text: "MTU na cestě" },
+                    { letter: "d", text: "spolehlivost cesty" },
+                    { letter: "e", text: "maximální rychlost cesty" },
+                    { letter: "f", text: "počet přeskoků v cestě" }
+                ],
+                answer: ["f"]
+            },
+            {
+                id: 52,
+                text: "Aktualizace směrovacích tabulek u protokolu RIP se standardně provádí každých:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "180 sekund" },
+                    { letter: "b", text: "120 sekund" },
+                    { letter: "c", text: "30 sekund" },
+                    { letter: "d", text: "90 sekund" }
+                ],
+                answer: ["c"]
+            },
+            {
+                id: 53,
+                text: "Jak se jmenuje DNS služba pod UNIXem?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "BIND" },
+                    { letter: "b", text: "DNS" },
+                    { letter: "c", text: "RESOLV" },
+                    { letter: "d", text: "NAMED" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 54,
+                text: "Jaký je maximální vysílací výkon mobilní stanice v pásmu 1800 MHz ve W?",
+                type: "text",
+                answer: "0.8"
+            },
+            {
+                id: 55,
+                text: "Jak se jmenuje démon na Linuxu, který zabezpečuje DNS server:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "NAMED" },
+                    { letter: "b", text: "BIND" },
+                    { letter: "c", text: "RESOLV" },
+                    { letter: "d", text: "DNS" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 56,
+                text: "DNS resolver je obsažen:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "jen na DNS serveru" },
+                    { letter: "b", text: "jen na kořenových DNS serverech" },
+                    { letter: "c", text: "jen na pracovní stanici v DNS systému" },
+                    { letter: "d", text: "na DNS serveru i na pracovní stanici v DNS systému" }
+                ],
+                answer: ["d"]
+            },
+            {
+                id: 57,
+                text: "Pokud DNS server nezná odpověď na DNS dotaz, ale sám se ujme jeho vyřízení a klientovi posílá až výslednou odpověď, jedná se o ... postup (slovo v kladném významu):",
+                type: "text",
+                answer: "rekurzivní"
+            },
+            {
+                id: 58,
+                text: "Jaké typy zón používá BIND 8:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "hint" },
+                    { letter: "b", text: "master" },
+                    { letter: "c", text: "slave" },
+                    { letter: "d", text: "primary" },
+                    { letter: "e", text: "secondary" },
+                    { letter: "f", text: "cache" }
+                ],
+                answer: ["a", "b", "c"]
+            },
+            {
+                id: 59,
+                text: "Z kterých souborů se skládá démon DNS serveru na Linuxu:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "host.conf" },
+                    { letter: "b", text: "named.root" },
+                    { letter: "c", text: "hosts" },
+                    { letter: "d", text: "named.local" },
+                    { letter: "e", text: "named.conf" },
+                    { letter: "f", text: "named.hosts" },
+                    { letter: "g", text: "resolv.conf" }
+                ],
+                answer: ["b", "d", "e", "f"]
+            },
+            {
+                id: 60,
+                text: "Z kterých souborů se skládá resolver na Linuxu:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "hosts" },
+                    { letter: "b", text: "named.conf" },
+                    { letter: "c", text: "host.conf" },
+                    { letter: "d", text: "named.local" },
+                    { letter: "e", text: "named.root" },
+                    { letter: "f", text: "named.hosts" },
+                    { letter: "g", text: "resolv.conf" }
+                ],
+                answer: ["a", "c", "g"]
+            },
+            {
+                id: 61,
+                text: "Jakým typem záznamu je popsán odkaz na poštovní server v zónovém souboru DNS systému:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "MX" },
+                    { letter: "b", text: "PTR" },
+                    { letter: "c", text: "A" },
+                    { letter: "d", text: "SOA" },
+                    { letter: "e", text: "NS" },
+                    { letter: "f", text: "CNAME" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 62,
+                text: "Jakým typem záznamu je popsán odkaz na DNS server v zónovém souboru DNS systému:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "MX" },
+                    { letter: "b", text: "PTR" },
+                    { letter: "c", text: "CNAME" },
+                    { letter: "d", text: "SOA" },
+                    { letter: "e", text: "NS" },
+                    { letter: "f", text: "A" }
+                ],
+                answer: ["e"]
+            },
+            {
+                id: 63,
+                text: "Jakým typem záznamu je popsán odkaz na IP adresu v zónovém souboru DNS systému:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "MX" },
+                    { letter: "b", text: "NS" },
+                    { letter: "c", text: "SOA" },
+                    { letter: "d", text: "PTR" },
+                    { letter: "e", text: "CNAME" },
+                    { letter: "f", text: "A" }
+                ],
+                answer: ["f"]
+            },
+            {
+                id: 64,
+                text: "Jakým typem záznamu je popsán odkaz na hlavičku v zónovém souboru DNS systému:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "A" },
+                    { letter: "b", text: "CNAME" },
+                    { letter: "c", text: "SOA" },
+                    { letter: "d", text: "NS" },
+                    { letter: "e", text: "PTR" },
+                    { letter: "f", text: "MX" }
+                ],
+                answer: ["c"]
+            },
+            {
+                id: 65,
+                text: "Které typy informací obsahuje hlavička (SOA) zónového souboru služby BIND na Linuxu:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "sériové číslo" },
+                    { letter: "b", text: "délku intervalu, po kterém musí být údaj ze zónového souboru odstraněn z cache serverů" },
+                    { letter: "c", text: "délku intervalu, po kterém zruší sekundární server doménu, pokud se mu nepodařilo spojit s primárním serverem" },
+                    { letter: "d", text: "délku intervalu pro opakovaný pokus o kontakt s primárním serverem" },
+                    { letter: "e", text: "délku intervalu, po kterém si má sekundární server zjistit na primárním, jestli nedošlo ke změnám v doméně" },
+                    { letter: "f", text: "e-mailovou adresu správce domény" },
+                    { letter: "g", text: "jméno primárního serveru pro doménu" }
+                ],
+                answer: ["a", "b", "c", "d", "e", "f", "g"]
+            },
+            {
+                id: 66,
+                text: "Rekurzivní postup vyřízení DNS dotazu má v porovnání s iterativním tyto vlastnosti:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "tazatel si nemůže uložit získanou odpověď do Cache paměti" },
+                    { letter: "b", text: "opakované dotazy nezpůsobují vyšší síťový provoz v Internetu" },
+                    { letter: "c", text: "tazatel si může uložit získanou odpověď do Cache paměti" },
+                    { letter: "d", text: "opakované dotazy způsobují vyšší síťový provoz v Internetu" },
+                    { letter: "e", text: "více zatěžuje dotazovaný DNS server" },
+                    { letter: "f", text: "méně zatěžuje dotazovaný DNS server" }
+                ],
+                answer: ["c", "b", "e"]
+            },
+            {
+                id: 67,
+                text: "Iterativní postup vyřízení DNS dotazu má v porovnání s rekurzivním tyto vlastnosti:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "nemůže uložit získanou odpověď do cache paměti" },
+                    { letter: "b", text: "opakované dotazy způsobují vyšší síťový provoz v Internetu" },
+                    { letter: "c", text: "opakované dotazy nezpůsobují vyšší síťový provoz v Internetu" },
+                    { letter: "d", text: "méně zatěžuje DNS server" },
+                    { letter: "e", text: "více zatěžuje DNS server" },
+                    { letter: "f", text: "může uložit získanou odpověď do cache paměti" }
+                ],
+                answer: ["b", "d", "f"]
+            },
+            {
+                id: 68,
+                text: "Jaké typy DNS serverů znáte:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "záložní" },
+                    { letter: "b", text: "pomocný - caching" },
+                    { letter: "c", text: "primární" },
+                    { letter: "d", text: "sekundární" }
+                ],
+                answer: ["b", "c", "d"]
+            },
+            {
+                id: 69,
+                text: "Které údaje se překládají u NATu 1:1?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "v některém případě jen IP adresy, v některém případě jen porty" },
+                    { letter: "b", text: "IP adresy i porty" },
+                    { letter: "c", text: "jen IP adresy" },
+                    { letter: "d", text: "jen porty" }
+                ],
+                answer: ["c"]
+            },
+            {
+                id: 70,
+                text: "PAT (NAT 1:N) můžeme popsat takto:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "nešetří veřejné adresy" },
+                    { letter: "b", text: "šetří veřejné adresy" },
+                    { letter: "c", text: "všechny privátní adresy jsou překládány na 1 vnější adresu" },
+                    { letter: "d", text: "privátní adresy nemohou být přístupné z vnější sítě" },
+                    { letter: "e", text: "čísla portů se nemění" },
+                    { letter: "f", text: "privátní adresy mohou být přístupné z vnější sítě" },
+                    { letter: "g", text: "mění se i čísla portů" },
+                    { letter: "h", text: "privátní adresy jsou pevně přiřazeny k vnějším adresám" }
+                ],
+                answer: ["b", "c", "d", "g"]
+            },
+            {
+                id: 71,
+                text: "Vnitřní privátní adresy jsou dostupné z vnější sítě u NATu:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "u žádného typu NATu" },
+                    { letter: "b", text: "pouze u dynamického NATu 1:1" },
+                    { letter: "c", text: "u všech typů NATu" },
+                    { letter: "d", text: "pouze u statického NATu 1:1" },
+                    { letter: "e", text: "pouze u dynamického NATu 1:N" }
+                ],
+                answer: ["d"]
+            },
+            {
+                id: 72,
+                text: "Statický NAT 1:1 můžeme popsat takto:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "privátní adresy nemohou být přístupné z vnější sítě" },
+                    { letter: "b", text: "nešetří veřejné adresy" },
+                    { letter: "c", text: "čísla portů se nemění" },
+                    { letter: "d", text: "privátní adresy mohou být přístupné z vnější sítě" },
+                    { letter: "e", text: "mění se i čísla portů" },
+                    { letter: "f", text: "může šetřit veřejné adresy" },
+                    { letter: "g", text: "privátní adresy jsou pevně přiřazeny k vnějším adresám" },
+                    { letter: "h", text: "privátní adresy jsou dynamicky přiřazovány k vnějším adresám" },
+                    { letter: "i", text: "všechny privátní adresy jsou překládány na 1 vnější adresu" }
+                ],
+                answer: ["b", "c", "d", "g"]
+            },
+            {
+                id: 73,
+                text: "Které údaje se překládají u PATu?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "IP adresy i porty" },
+                    { letter: "b", text: "jen porty" },
+                    { letter: "c", text: "v některém případě jen IP adresy, v některém případě jen porty" },
+                    { letter: "d", text: "jen IP adresy" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 74,
+                text: "NAT můžeme charakterizovat následujícími vlastnostmi:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "poskytuje zabezpečení" },
+                    { letter: "b", text: "šetří veřejné IP adresy" },
+                    { letter: "c", text: "NAT je součástí proxyserverů" },
+                    { letter: "d", text: "používá se na rozhraní mezi privátní sítí a veřejným internetem" }
+                ],
+                answer: ["a", "b", "d"]
+            },
+            {
+                id: 75,
+                text: "PAT je:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "NAT 1:N" },
+                    { letter: "b", text: "NAT N:1" },
+                    { letter: "c", text: "dynamický NAT 1:1" },
+                    { letter: "d", text: "statický NAT 1:1" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 76,
+                text: "Paketový firewall (typická činnost pro uvedený typ):",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "kontroluje datovou část paketů na známé řetězce" },
+                    { letter: "b", text: "kontroluje stav spojení" },
+                    { letter: "c", text: "kontroluje porty" },
+                    { letter: "d", text: "navazuje nové spojení a v něm dodržuje komunikační standardy" },
+                    { letter: "e", text: "ověřuje dodržování standardů protokolů a standardů aplikací" },
+                    { letter: "f", text: "kontroluje IP adresy" }
+                ],
+                answer: ["c", "f"]
+            },
+            {
+                id: 77,
+                text: "Hloubkový a inteligentní firewall (typická činnost pro uvedený typ):",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "kontroluje datovou část paketů na známé řetězce" },
+                    { letter: "b", text: "kontroluje stav spojení" },
+                    { letter: "c", text: "navazuje nové spojení a v něm dodržuje komunikační standardy" },
+                    { letter: "d", text: "ověřuje dodržování standardů protokolů a standardů aplikací" },
+                    { letter: "e", text: "kontroluje porty" },
+                    { letter: "f", text: "kontroluje IP adresy" }
+                ],
+                answer: ["a", "d"]
+            },
+            {
+                id: 78,
+                text: "Stavový firewall (typická činnost pro uvedený typ):",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "navazuje nové spojení a v něm dodržuje komunikační standardy" },
+                    { letter: "b", text: "kontroluje porty" },
+                    { letter: "c", text: "kontroluje stav spojení" },
+                    { letter: "d", text: "kontroluje datovou část paketů na známé řetězce" },
+                    { letter: "e", text: "ověřuje dodržování standardů protokolů a standardů aplikací" },
+                    { letter: "f", text: "kontroluje IP adresy" }
+                ],
+                answer: ["b", "c", "f"]
+            },
+            {
+                id: 79,
+                text: "Aplikační firewall (typická činnost pro uvedený typ):",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "ověřuje dodržování standardů protokolů a standardů aplikací" },
+                    { letter: "b", text: "kontroluje stav spojení" },
+                    { letter: "c", text: "kontroluje datovou část paketů na známé řetězce" },
+                    { letter: "d", text: "kontroluje porty" },
+                    { letter: "e", text: "navazuje nové spojení a v něm dodržuje komunikační standardy" },
+                    { letter: "f", text: "kontroluje IP adresy" }
+                ],
+                answer: ["a", "e"]
+            },
+            {
+                id: 80,
+                text: "Jaké typy UPS znáte:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "On-line" },
+                    { letter: "b", text: "Buck-line" },
+                    { letter: "c", text: "Boost-line" },
+                    { letter: "d", text: "Off-line" },
+                    { letter: "e", text: "Line-interaktiv" },
+                    { letter: "f", text: "Power-line" }
+                ],
+                answer: ["a", "d", "e"]
+            },
+            {
+                id: 81,
+                text: "V jakých jednotkách je uváděn výstupní výkon u UPS:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Coulomb" },
+                    { letter: "b", text: "W" },
+                    { letter: "c", text: "VAr" },
+                    { letter: "d", text: "VA" }
+                ],
+                answer: ["d"]
+            },
+            {
+                id: 82,
+                text: "Který typ UPS nejlépe stabilizuje podpětí a přepětí, aniž by odebíral energii z akumulátoru:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "Boost-line" },
+                    { letter: "b", text: "Off-line" },
+                    { letter: "c", text: "Buck-line" },
+                    { letter: "d", text: "On-line" },
+                    { letter: "e", text: "Power-line" },
+                    { letter: "f", text: "Line-interaktiv" }
+                ],
+                answer: ["f"]
+            },
+            {
+                id: 83,
+                text: "K čemu se využívá statické směrování:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "jako obrana proti nekorektním směrovacím informacím" },
+                    { letter: "b", text: "pro zavedení směrů, které nejsou inzerovány" },
+                    { letter: "c", text: "pro definování tzv. implicitních cest" },
+                    { letter: "d", text: "pro implementaci speciálních směrovacích politik" }
+                ],
+                answer: ["a", "b", "c", "d"]
+            },
+            {
+                id: 84,
+                text: "Směrovací tabulka se prochází:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "od nejkonkrétnějších položek (CIDR prefix 32) k nejméně konkrétním (CIDR prefix 0)" },
+                    { letter: "b", text: "od nejkonkrétnějších položek (CIDR prefix 0) k nejméně konkrétním (CIDR prefix 32)" },
+                    { letter: "c", text: "od nejméně konkrétních (CIDR prefix 0) k nejkonkrétnějším položkám (CIDR prefix 32)" },
+                    { letter: "d", text: "od nejméně konkrétních (CIDR prefix 32) k nejkonkrétnějším položkám (CIDR prefix 0)" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 85,
+                text: "Směrovací tabulka routeru může obsahovat:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "adresu nejbližšího směrovače" },
+                    { letter: "b", text: "adresu sítě, na kterou je router přímo připojen" },
+                    { letter: "c", text: "adresu cílové sítě" },
+                    { letter: "d", text: "adresu cílového počítače" }
+                ],
+                answer: ["a", "b", "c"]
+            },
+            {
+                id: 86,
+                text: "Jaké směrování je uvedeno na obrázku? (PC odesílá přímo do cílového PC ve stejné síti)",
+                type: "text",
+                answer: "přímé"
+            },
+            {
+                id: 87,
+                text: "Jaké směrování je uvedeno na obrázku? (PC odesílá přes router do jiné sítě)",
+                type: "text",
+                answer: "nepřímé"
+            },
+            {
+                id: 88,
+                text: "Pod směrování můžeme zahrnout:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "zesílení a obnova signálu" },
+                    { letter: "b", text: "udržování směrovacích informací" },
+                    { letter: "c", text: "předávání paketů (forwarding)" },
+                    { letter: "d", text: "udržování tabulek MAC adres na připojených sítích" },
+                    { letter: "e", text: "výpočet optimální cesty" },
+                    { letter: "f", text: "kontrola příchozích rámců na CRC" },
+                    { letter: "g", text: "uchovávání směrovacích informací" }
+                ],
+                answer: ["b", "c", "e", "g"]
+            },
+            {
+                id: 89,
+                text: "Co je hlavním cílem směrování:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "volit směr pro další předání paketu/datagramu" },
+                    { letter: "b", text: "rozdělit síť na více menších sítí" },
+                    { letter: "c", text: "rozšířit počet přípojných míst pro PC v původní síti" },
+                    { letter: "d", text: "oddělit kolizní sítě" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 90,
+                text: "Které části sítě se podílí na nepřímém směrování (nepředpokládá se ICMP redirect):",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "přijímající počítač, který je na stejné LAN jako odesílající počítač" },
+                    { letter: "b", text: "router, který neleží v cestě mezi odesílajícím a přijímajícím počítačem" },
+                    { letter: "c", text: "přijímající počítač na jiné LAN, než v které je odesílající počítač" },
+                    { letter: "d", text: "router v cestě mezi odesílajícím a přijímajícím počítačem" },
+                    { letter: "e", text: "odesílající počítač" }
+                ],
+                answer: ["c", "d", "e"]
+            },
+            {
+                id: 91,
+                text: "Dynamické směrování můžeme typicky popsat takto:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "směrovací tabulky se mění dynamicky na základě informací z okolních přepínačů" },
+                    { letter: "b", text: "směrovací tabulky se mění dynamicky správcem routeru" },
+                    { letter: "c", text: "směrovací tabulky se dynamicky mění na základě informací z jiných routerů" },
+                    { letter: "d", text: "základ směrovacích tabulek vytvoří správce routeru při jeho konfiguraci" }
+                ],
+                answer: ["c"]
+            },
+            {
+                id: 92,
+                text: "Na které vrstvě modelu OSI pracuje router (číslo):",
+                type: "text",
+                answer: "3"
+            },
+            {
+                id: 93,
+                text: "Jak se jmenuje sdružení poskytovatelů internetových služeb v ČR, které zajišťuje propojení jejich sítí:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "NIC" },
+                    { letter: "b", text: "NIX" },
+                    { letter: "c", text: "FIC" },
+                    { letter: "d", text: "FIX" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 94,
+                text: "Výraz 195.178.88/23 je:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "adresa subsítě" },
+                    { letter: "b", text: "CIDR blok" },
+                    { letter: "c", text: "prefix" },
+                    { letter: "d", text: "cílová síť" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 95,
+                text: "U výrazu 195.178.88/23 je číslo 23:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "CIDR prefix" },
+                    { letter: "b", text: "adresa sítě" },
+                    { letter: "c", text: "prefix" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 96,
+                text: "U výrazu 195.178.88/23 z routovací tabulky je část 195.178.88:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "prefix" },
+                    { letter: "b", text: "cílová síť" },
+                    { letter: "c", text: "CIDR blok" },
+                    { letter: "d", text: "adresa subsítě" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 97,
+                text: "U výrazu 195.178.88/23 z routovací tabulky je část /23:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "cílová síť" },
+                    { letter: "b", text: "adresa subsítě" },
+                    { letter: "c", text: "CIDR blok" },
+                    { letter: "d", text: "prefix" }
+                ],
+                answer: ["d"]
+            },
+            {
+                id: 98,
+                text: "Položka 195.178.64.0/19 v routovací tabulce je:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "agregovaná položka do CIDR bloku" },
+                    { letter: "b", text: "host-specific route" },
+                    { letter: "c", text: "default route" },
+                    { letter: "d", text: "neagregovaná položka" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 99,
+                text: "Položka 195.178.88.0/24 v routovací tabulce je:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "default route" },
+                    { letter: "b", text: "agregovaná položka do CIDR bloku" },
+                    { letter: "c", text: "neagregovaná položka" },
+                    { letter: "d", text: "host-specific route" }
+                ],
+                answer: ["c"]
+            },
+            {
+                id: 100,
+                text: "Položka 195.178.88.130/32 v routovací tabulce je:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "default route" },
+                    { letter: "b", text: "neagregovaná položka" },
+                    { letter: "c", text: "host-specific route" },
+                    { letter: "d", text: "agregovaná položka do CIDR bloku" }
+                ],
+                answer: ["c"]
+            },
+            {
+                id: 101,
+                text: "Položka 0.0.0.0/0 v routovací tabulce je:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "host-specific route" },
+                    { letter: "b", text: "default route" },
+                    { letter: "c", text: "neagregovaná položka" },
+                    { letter: "d", text: "agregovaná položka do CIDR bloku" }
+                ],
+                answer: ["b"]
+            }
+        ];
+
+        let correctCount = 0;
+        let incorrectCount = 0;
+        let answeredQuestions = new Set();
+
+        function renderQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+
+            questions.forEach(q => {
+                const card = document.createElement('div');
+                card.className = 'question-card';
+                card.id = `question-${q.id}`;
+
+                let typeLabel = '';
+                if (q.type === 'single') typeLabel = 'Jedna odpověď';
+                else if (q.type === 'multi') typeLabel = 'Více odpovědí';
+                else typeLabel = 'Písemná odpověď';
+
+                let optionsHtml = '';
+                if (q.type === 'text') {
+                    optionsHtml = `
+                        <div class="text-input-container">
+                            <input type="text" class="text-input" id="input-${q.id}" placeholder="Zadejte odpověď...">
+                            <button class="check-btn" onclick="checkTextAnswer(${q.id})">Zkontrolovat</button>
+                        </div>
+                        <div class="feedback" id="feedback-${q.id}"></div>
+                    `;
+                } else {
+                    const multiNote = q.type === 'multi' ? '<p class="multi-note">Vyberte všechny správné odpovědi a klikněte na tlačítko</p>' : '';
+                    optionsHtml = `
+                        <div class="options" id="options-${q.id}">
+                            ${q.options.map(opt => `
+                                <div class="option" data-letter="${opt.letter}" onclick="selectOption(${q.id}, '${opt.letter}', '${q.type}')">
+                                    <span class="option-letter">${opt.letter.toUpperCase()}</span>
+                                    <span class="option-text">${opt.text}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        ${multiNote}
+                        ${q.type === 'multi' ? `<button class="check-btn" style="margin-top: 15px;" onclick="checkMultiAnswer(${q.id})">Zkontrolovat</button>` : ''}
+                        <div class="feedback" id="feedback-${q.id}"></div>
+                    `;
+                }
+
+                const imageHtml = q.image ? `<img src="${q.image}" class="question-image" alt="Obrázek k otázce">` : '';
+
+                card.innerHTML = `
+                    <div class="question-header">
+                        <span class="question-number">${q.id}</span>
+                        <span class="question-type">${typeLabel}</span>
+                    </div>
+                    <p class="question-text">${q.text}</p>
+                    ${imageHtml}
+                    ${optionsHtml}
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        function selectOption(questionId, letter, type) {
+            if (answeredQuestions.has(questionId)) return;
+
+            const optionsContainer = document.getElementById(`options-${questionId}`);
+            const option = optionsContainer.querySelector(`[data-letter="${letter}"]`);
+
+            if (type === 'single') {
+                // Single select - check immediately
+                const question = questions.find(q => q.id === questionId);
+                const isCorrect = question.answer.includes(letter);
+
+                answeredQuestions.add(questionId);
+
+                optionsContainer.querySelectorAll('.option').forEach(opt => {
+                    opt.classList.add('disabled');
+                    if (question.answer.includes(opt.dataset.letter)) {
+                        opt.classList.add('correct');
+                    }
+                });
+
+                if (!isCorrect) {
+                    option.classList.add('incorrect');
+                }
+
+                showFeedback(questionId, isCorrect, question.answer);
+                updateStats(isCorrect);
+            } else {
+                // Multi select - toggle selection
+                option.classList.toggle('selected');
+            }
+        }
+
+        function checkMultiAnswer(questionId) {
+            if (answeredQuestions.has(questionId)) return;
+
+            const question = questions.find(q => q.id === questionId);
+            const optionsContainer = document.getElementById(`options-${questionId}`);
+            const selectedOptions = optionsContainer.querySelectorAll('.option.selected');
+            const selectedLetters = Array.from(selectedOptions).map(opt => opt.dataset.letter);
+
+            answeredQuestions.add(questionId);
+
+            const isCorrect = selectedLetters.length === question.answer.length &&
+                selectedLetters.every(l => question.answer.includes(l));
+
+            optionsContainer.querySelectorAll('.option').forEach(opt => {
+                opt.classList.add('disabled');
+                opt.classList.remove('selected');
+                if (question.answer.includes(opt.dataset.letter)) {
+                    opt.classList.add('correct');
+                } else if (selectedLetters.includes(opt.dataset.letter)) {
+                    opt.classList.add('incorrect');
+                }
+            });
+
+            showFeedback(questionId, isCorrect, question.answer);
+            updateStats(isCorrect);
+        }
+
+        function checkTextAnswer(questionId) {
+            if (answeredQuestions.has(questionId)) return;
+
+            const question = questions.find(q => q.id === questionId);
+            const input = document.getElementById(`input-${questionId}`);
+            const userAnswer = input.value.trim();
+
+            if (!userAnswer) return;
+
+            answeredQuestions.add(questionId);
+
+            const isCorrect = userAnswer.toLowerCase() === question.answer.toLowerCase();
+
+            input.classList.add(isCorrect ? 'correct' : 'incorrect');
+            input.disabled = true;
+            document.querySelector(`#question-${questionId} .check-btn`).disabled = true;
+
+            showFeedback(questionId, isCorrect, [question.answer]);
+            updateStats(isCorrect);
+        }
+
+        function showFeedback(questionId, isCorrect, correctAnswers) {
+            const feedback = document.getElementById(`feedback-${questionId}`);
+            feedback.className = `feedback show ${isCorrect ? 'correct' : 'incorrect'}`;
+
+            if (isCorrect) {
+                feedback.textContent = '✓ Správně!';
+            } else {
+                feedback.textContent = `✗ Špatně. Správná odpověď: ${correctAnswers.join(', ').toUpperCase()}`;
+            }
+        }
+
+        function updateStats(isCorrect) {
+            if (isCorrect) {
+                correctCount++;
+                document.getElementById('correct-count').textContent = correctCount;
+            } else {
+                incorrectCount++;
+                document.getElementById('incorrect-count').textContent = incorrectCount;
+            }
+            document.getElementById('remaining-count').textContent = questions.length - answeredQuestions.size;
+        }
+
+        function resetQuiz() {
+            correctCount = 0;
+            incorrectCount = 0;
+            answeredQuestions.clear();
+            document.getElementById('correct-count').textContent = '0';
+            document.getElementById('incorrect-count').textContent = '0';
+            document.getElementById('remaining-count').textContent = questions.length;
+            renderQuestions();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Initialize
+        renderQuestions();
+    </script>
+</body>
+</html>

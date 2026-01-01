@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PV - Počítačové viry</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            background: transparent;
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            border-color: #00d9ff;
+            color: #00d9ff;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0 50px 0;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, #00d9ff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: #888;
+            font-size: 1rem;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .card-container {
+            perspective: 1000px;
+            height: 400px;
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            cursor: pointer;
+        }
+
+        .card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, rgba(0,217,255,0.1), rgba(0,255,136,0.1));
+            border: 2px solid rgba(0,217,255,0.3);
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, rgba(0,217,255,0.15), rgba(0,255,136,0.15));
+            border: 2px solid rgba(0,255,136,0.3);
+            transform: rotateY(180deg);
+            overflow-y: auto;
+            justify-content: flex-start;
+            text-align: left;
+        }
+
+        .card-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(90deg, #00d9ff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .card-subtitle {
+            font-size: 0.9rem;
+            color: #888;
+            margin-top: 10px;
+        }
+
+        .card-back h3 {
+            color: #00ff88;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .card-back ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .card-back li {
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
+            line-height: 1.6;
+            color: #e0e0e0;
+        }
+
+        .card-back li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #00d9ff;
+            font-weight: bold;
+        }
+
+        .hint {
+            text-align: center;
+            color: #666;
+            margin-top: 30px;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .card-container {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-btn">← Zpět na menu</a>
+
+        <header>
+            <h1>Počítačové viry - Flashcards</h1>
+            <p>Klikněte na kartičku pro zobrazení detailů</p>
+        </header>
+
+        <div class="cards-grid">
+            <!-- MALWARE -->
+            <div class="card-container">
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="card-front">
+                        <div class="card-icon">🦠</div>
+                        <div class="card-title">MALWARE</div>
+                        <div class="card-subtitle">Základní pojmy</div>
+                    </div>
+                    <div class="card-back">
+                        <h3>Co je MALWARE?</h3>
+                        <ul>
+                            <li>Malicious + Software = jakýkoli škodlivý kód</li>
+                            <li>Může být destruktivní (ale nemusí!)</li>
+                            <li>První: 70. léta 20. století</li>
+                            <li>Musí mít autora – nevznikne sám od sebe!</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIRUS -->
+            <div class="card-container">
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="card-front">
+                        <div class="card-icon">🔬</div>
+                        <div class="card-title">VIRUS</div>
+                        <div class="card-subtitle">Základní typ malwaru</div>
+                    </div>
+                    <div class="card-back">
+                        <h3>Co je VIRUS?</h3>
+                        <ul>
+                            <li>Základní typ malwaru</li>
+                            <li>Potřebuje hostitelský soubor (exe, doc, bat, html...)</li>
+                            <li>Aktivace uživatelem</li>
+                        </ul>
+                        <h3 style="margin-top: 20px; font-size: 1.2rem;">Komponenty:</h3>
+                        <ul>
+                            <li>Modul pro šíření/replikaci = JEDINÁ POVINNÁ ČÁST!</li>
+                            <li>Destruktivní/obtěžující aktivity</li>
+                            <li>Inicializační mechanismus</li>
+                            <li>Krycí část (maskování)</li>
+                            <li>Komunikační modul (C&C)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TROJSKÝ KŮŇ -->
+            <div class="card-container">
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="card-front">
+                        <div class="card-icon">🐴</div>
+                        <div class="card-title">TROJSKÝ KŮŇ</div>
+                        <div class="card-subtitle">Maskovaný malware</div>
+                    </div>
+                    <div class="card-back">
+                        <h3>Co je TROJSKÝ KŮŇ?</h3>
+                        <ul>
+                            <li>Vypadá jako legitimní aplikace</li>
+                            <li>Na pozadí běží malware</li>
+                            <li>Uživatel sám instaluje!</li>
+                            <li>Může se aktivovat se zpožděním</li>
+                            <li>Maskuje se za: spořič, crack, warez, fake AV, hry</li>
+                        </ul>
+                        <h3 style="margin-top: 20px; font-size: 1.2rem;">Funkce:</h3>
+                        <ul>
+                            <li>Odposlech, keylogger, backdoor</li>
+                            <li>Těžba krypta, spam</li>
+                            <li>Manipulace s OS/AV</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WORM -->
+            <div class="card-container">
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="card-front">
+                        <div class="card-icon">🪱</div>
+                        <div class="card-title">WORM</div>
+                        <div class="card-subtitle">Červ - síťový malware</div>
+                    </div>
+                    <div class="card-back">
+                        <h3>Co je WORM (červ)?</h3>
+                        <ul>
+                            <li>NEPOTŘEBUJE hostitelský soubor!</li>
+                            <li>Šíří se přes síťové porty</li>
+                            <li>Často obsahuje exploit</li>
+                            <li>Vytváří botnety</li>
+                        </ul>
+                        <h3 style="margin-top: 20px; font-size: 1.2rem;">Funkce:</h3>
+                        <ul>
+                            <li>Vyhledávač obětí (skenování, OSINT, kontakty)</li>
+                            <li>Komunikační moduly (HTTP/S, TOR, VPN, IRC)</li>
+                            <li>Aktualizační funkce</li>
+                            <li>Bezpečnostní pojistka (kill switch)</li>
+                            <li>Keylogger, sniffer</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SPYWARE -->
+            <div class="card-container">
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="card-front">
+                        <div class="card-icon">👁️</div>
+                        <div class="card-title">SPYWARE</div>
+                        <div class="card-subtitle">Sledovací software</div>
+                    </div>
+                    <div class="card-back">
+                        <h3>Co je SPYWARE?</h3>
+                        <ul>
+                            <li>Účel: sledování uživatele</li>
+                            <li>Instaluje se BEZ VĚDOMÍ!</li>
+                            <li>Zasílá: prohlížené stránky, soubory, přihlašovací údaje</li>
+                            <li>Vzdálený přístup</li>
+                            <li>Posílání polohy</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADWARE -->
+            <div class="card-container">
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="card-front">
+                        <div class="card-icon">📢</div>
+                        <div class="card-title">ADWARE</div>
+                        <div class="card-subtitle">Reklamní software</div>
+                    </div>
+                    <div class="card-back">
+                        <h3>Co je ADWARE?</h3>
+                        <ul>
+                            <li>Účel: zobrazování reklamy, hrazení free programů</li>
+                            <li>Instaluje uživatel (EULA)</li>
+                            <li>Změna startovací stránky, vyskakovací okna</li>
+                        </ul>
+                        <h3 style="margin-top: 20px; font-size: 1.2rem;">Rozdíl od SPYWARE:</h3>
+                        <ul>
+                            <li>Souhlas v EULA</li>
+                            <li>Neposílá hesla</li>
+                            <li>Základní AV ho nedetekuje (platí i pro spyware)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EXPLOIT -->
+            <div class="card-container">
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="card-front">
+                        <div class="card-icon">⚡</div>
+                        <div class="card-title">EXPLOIT</div>
+                        <div class="card-subtitle">Využití zranitelnosti</div>
+                    </div>
+                    <div class="card-back">
+                        <h3>Co je EXPLOIT?</h3>
+                        <ul>
+                            <li>Specifický kód využívající chybu/zranitelnost</li>
+                            <li>Vázán na konkrétní verzi aplikace</li>
+                        </ul>
+                        <h3 style="margin-top: 20px; font-size: 1.2rem;">Typy:</h3>
+                        <ul>
+                            <li>Remote - vzdáleně přes porty</li>
+                            <li>Local - fyzický přístup</li>
+                        </ul>
+                        <h3 style="margin-top: 20px; font-size: 1.2rem;">Funkce:</h3>
+                        <ul>
+                            <li>Eskalace privilegií, obejití auth</li>
+                            <li>Injekce DB, DoS</li>
+                            <li>Zero-day = nový exploit na neznámou zranitelnost → 100% funkční</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROOTKIT -->
+            <div class="card-container">
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="card-front">
+                        <div class="card-icon">👻</div>
+                        <div class="card-title">ROOTKIT</div>
+                        <div class="card-subtitle">Neviditelný malware</div>
+                    </div>
+                    <div class="card-back">
+                        <h3>Co je ROOTKIT?</h3>
+                        <ul>
+                            <li>Ukrytý pod úrovní OS (blíže k HW)</li>
+                            <li>Manipulace na velmi nízké úrovni</li>
+                            <li>Velmi těžká detekce!</li>
+                            <li>Napadá firmware</li>
+                            <li>Dnes minimální výskyt čistokrevných</li>
+                        </ul>
+                        <h3 style="margin-top: 20px; font-size: 1.2rem;">Známé příklady:</h3>
+                        <ul>
+                            <li>XCP Sony 2005</li>
+                            <li>W32/Haxdoor</li>
+                            <li>Apropos</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="hint">
+            💡 Tip: Klikněte na kartičku pro zobrazení detailů
+        </div>
+    </div>
+</body>
+</html>
