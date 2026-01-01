@@ -254,9 +254,9 @@
             border: 1px solid rgba(255,71,87,0.3);
         }
 
-        .reset-btn {
-            display: block;
-            margin: 40px auto;
+        .reset-btn, .shuffle-btn {
+            display: inline-block;
+            margin: 40px 10px;
             padding: 15px 40px;
             border-radius: 30px;
             border: 2px solid #00d9ff;
@@ -267,9 +267,24 @@
             transition: all 0.3s ease;
         }
 
+        .shuffle-btn {
+            border-color: #00ff88;
+            color: #00ff88;
+        }
+
         .reset-btn:hover {
             background: #00d9ff;
             color: #1a1a2e;
+        }
+
+        .shuffle-btn:hover {
+            background: #00ff88;
+            color: #1a1a2e;
+        }
+
+        .quiz-controls {
+            text-align: center;
+            margin: 30px 0;
         }
 
         .back-btn {
@@ -334,13 +349,16 @@
             </div>
         </div>
 
-        <div id="questions-container"></div>
+        <div class="quiz-controls">
+            <button class="shuffle-btn" onclick="shuffleQuiz()">🔀 Přeházet otázky</button>
+            <button class="reset-btn" onclick="resetQuiz()">🔄 Resetovat quiz</button>
+        </div>
 
-        <button class="reset-btn" onclick="resetQuiz()">Resetovat quiz</button>
+        <div id="questions-container"></div>
     </div>
 
     <script>
-        const questions = [
+        let questions = [
             {
                 id: 1,
                 text: "Jaká je maximální přenosová rychlost ADSL2++ pro DL v Mb/s (celé číslo bez znaménka)?",
@@ -1701,6 +1719,48 @@
             document.getElementById('remaining-count').textContent = questions.length;
             renderQuestions();
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Shuffle array using Fisher-Yates algorithm
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        function shuffleQuiz() {
+            // Shuffle questions order
+            questions = shuffleArray(questions);
+
+            // Shuffle options for each question (but keep correct answers mapped)
+            questions.forEach(q => {
+                if (q.options && q.options.length > 0) {
+                    // Store which texts are correct
+                    const correctTexts = q.answer.map(letter =>
+                        q.options.find(opt => opt.letter === letter).text
+                    );
+
+                    // Shuffle options
+                    q.options = shuffleArray(q.options);
+
+                    // Reassign letters a, b, c, d...
+                    const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'];
+                    q.options.forEach((opt, index) => {
+                        opt.letter = letters[index];
+                    });
+
+                    // Update correct answers to new letters
+                    q.answer = q.options
+                        .filter(opt => correctTexts.includes(opt.text))
+                        .map(opt => opt.letter);
+                }
+            });
+
+            // Reset quiz state
+            resetQuiz();
         }
 
         // Initialize
