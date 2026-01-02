@@ -293,6 +293,41 @@
             margin: 30px 0;
         }
 
+        .mode-toggle {
+            display: inline-flex;
+            background: rgba(255,255,255,0.05);
+            border-radius: 30px;
+            padding: 5px;
+            margin-right: 20px;
+        }
+
+        .mode-btn {
+            padding: 10px 25px;
+            border-radius: 25px;
+            border: none;
+            background: transparent;
+            color: #888;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .mode-btn.active {
+            background: linear-gradient(135deg, #00d9ff, #00ff88);
+            color: #1a1a2e;
+            font-weight: bold;
+        }
+
+        .learning-mode .option.correct {
+            border-color: #00ff88 !important;
+            background: rgba(0,255,136,0.15) !important;
+        }
+
+        .learning-mode .option.correct .option-letter {
+            background: #00ff88 !important;
+            color: #1a1a2e !important;
+        }
+
         .back-btn {
             display: inline-block;
             margin-bottom: 20px;
@@ -351,13 +386,17 @@
                 Špatně: <span id="incorrect-count">0</span>
             </div>
             <div class="stat-box">
-                Zbývá: <span id="remaining-count">101</span>
+                Zbývá: <span id="remaining-count">150</span>
             </div>
         </div>
 
         <div class="quiz-controls">
-            <button class="shuffle-btn" onclick="shuffleQuiz()">🔀 Přeházet otázky</button>
-            <button class="reset-btn" onclick="resetQuiz()">🔄 Resetovat quiz</button>
+            <div class="mode-toggle">
+                <button class="mode-btn active" onclick="setMode('learning')">📚 Učit se</button>
+                <button class="mode-btn" onclick="setMode('test')">✍️ Testovat</button>
+            </div>
+            <button class="shuffle-btn" onclick="shuffleQuiz()">🔀 Přeházet</button>
+            <button class="reset-btn" onclick="resetQuiz()">🔄 Reset</button>
         </div>
 
         <div id="questions-container"></div>
@@ -1551,12 +1590,592 @@
                     { letter: "d", text: "agregovaná položka do CIDR bloku" }
                 ],
                 answer: ["b"]
+            },
+            {
+                id: 102,
+                text: "Propojení označené modrou šipkou se jmenuje:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "rooming" },
+                    { letter: "b", text: "handover" },
+                    { letter: "c", text: "piercing" },
+                    { letter: "d", text: "peering" }
+                ],
+                answer: ["d"]
+            },
+            {
+                id: 103,
+                text: "Dnes je možné téměř vždy si ponechat IP adresu při přechodu mezi providery Internetu:",
+                type: "text",
+                answer: "nepravda"
+            },
+            {
+                id: 104,
+                text: "Která UPS má při stejném výstupním výkonu [VA] největší akumulátor a tím pádem i rozměry:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Buck-line" },
+                    { letter: "b", text: "Line-interaktiv" },
+                    { letter: "c", text: "Off-line" },
+                    { letter: "d", text: "Boost-line" },
+                    { letter: "e", text: "On-line" },
+                    { letter: "f", text: "Power-line" }
+                ],
+                answer: ["e"]
+            },
+            {
+                id: 105,
+                text: "Přes které zařízení nemusí projít signál pro přípojku pomocí rozvodů 230V:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "jistič" },
+                    { letter: "b", text: "transformátor" },
+                    { letter: "c", text: "tavnou pojistku" },
+                    { letter: "d", text: "elektroměr" }
+                ],
+                answer: ["a", "b", "c"]
+            },
+            {
+                id: 106,
+                text: "Kolik základových stanic s jinou frekvencí musí být umístěno mezi základovými stanicemi se stejnou frekvencí? (číslo)",
+                type: "text",
+                answer: "2"
+            },
+            {
+                id: 107,
+                text: "DNS server BIND obsahuje tyto typy souborů:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "zónové soubory" },
+                    { letter: "b", text: "HTML soubory" },
+                    { letter: "c", text: "konfigurační soubor" },
+                    { letter: "d", text: "XML soubory" }
+                ],
+                answer: ["a", "c"]
+            },
+            {
+                id: 108,
+                text: "Jakým typem záznamu je popsán odkaz na doménové jméno v reverzním zónovém záznamu souboru DNS systému:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "MX" },
+                    { letter: "b", text: "PTR" },
+                    { letter: "c", text: "SOA" },
+                    { letter: "d", text: "A" },
+                    { letter: "e", text: "CNAME" },
+                    { letter: "f", text: "NS" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 109,
+                text: "Jaké topologie používal raný Internet s kořenovými směrovači:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "do hvězdy" },
+                    { letter: "b", text: "sběrnicovou" },
+                    { letter: "c", text: "úplnou (mesh)" },
+                    { letter: "d", text: "páteřní" },
+                    { letter: "e", text: "neomezenou" },
+                    { letter: "f", text: "stromovou" },
+                    { letter: "g", text: "kruhovou" }
+                ],
+                answer: ["d"]
+            },
+            {
+                id: 110,
+                text: "Jakým typem záznamu je popsán odkaz na poštovní server v zónovém souboru DNS systému:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "MX" },
+                    { letter: "b", text: "PTR" },
+                    { letter: "c", text: "A" },
+                    { letter: "d", text: "SOA" },
+                    { letter: "e", text: "NS" },
+                    { letter: "f", text: "CNAME" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 111,
+                text: "Které doporučení IEEE popisuje síť WiMax:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "802.16" },
+                    { letter: "b", text: "802.11" },
+                    { letter: "c", text: "802.6" },
+                    { letter: "d", text: "802.9" },
+                    { letter: "e", text: "802.3" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 112,
+                text: "Jaký je maximální dosah přístupového bodu u sítě WiMax v otevřeném terénu v km (celé číslo bez znaménka):",
+                type: "text",
+                answer: "50"
+            },
+            {
+                id: 113,
+                text: "Základ dynamického doménového jména si mohu zvolit:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Musím použít ještě neexistující základ doménového jména" },
+                    { letter: "b", text: "Dle doménových jmen DDNS (dynamic DNS) poskytovatelů" },
+                    { letter: "c", text: "Libovolně" },
+                    { letter: "d", text: "Musím použít již existující statický základ" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 114,
+                text: "Které připojení do Internetu je tarifikováno impulsy:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "UTMS" },
+                    { letter: "b", text: "CATV" },
+                    { letter: "c", text: "GSM GPRS/EDGE" },
+                    { letter: "d", text: "ISDN" },
+                    { letter: "e", text: "LTE" },
+                    { letter: "f", text: "DSL" }
+                ],
+                answer: ["d"]
+            },
+            {
+                id: 115,
+                text: "Která kódovací schémata používá GSM GPRS:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "MCS5-MCS9" },
+                    { letter: "b", text: "MCS1-MCS9" },
+                    { letter: "c", text: "CS1-CS4" },
+                    { letter: "d", text: "MCS1-MCS4" }
+                ],
+                answer: ["c"]
+            },
+            {
+                id: 116,
+                text: "Níže uvedené řádky patří do:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Zónového souboru pro přímé převody" },
+                    { letter: "b", text: "Zónového souboru pro reverzní převody" },
+                    { letter: "c", text: "Konfiguračního souboru name serveru" },
+                    { letter: "d", text: "Konfiguračního souboru resolveru" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 117,
+                text: "Níže uvedené řádky patří do:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Zónového souboru pro reverzní převody" },
+                    { letter: "b", text: "Konfiguračního souboru resolveru" },
+                    { letter: "c", text: "Konfiguračního souboru name serveru" },
+                    { letter: "d", text: "Zónového souboru pro přímé převody" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 118,
+                text: "Na kolik TS (time slotů) je rozdělen pomocí TDM jeden rámec u GSM (číslo):",
+                type: "text",
+                answer: "8"
+            },
+            {
+                id: 119,
+                text: "Jaká je řadově maximální teoretická přenosová rychlost u DL u nejrychlejší UMTS verze v MB/s:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Tisíce" },
+                    { letter: "b", text: "Desítky" },
+                    { letter: "c", text: "Jednotky" },
+                    { letter: "d", text: "Stovky" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 120,
+                text: "Které multiplexy využívá síť UMTS:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "TDM" },
+                    { letter: "b", text: "CDM" },
+                    { letter: "c", text: "WDM" },
+                    { letter: "d", text: "FDM" }
+                ],
+                answer: ["a", "b", "d"]
+            },
+            {
+                id: 121,
+                text: "Které typy rozhraní se používají pro komunikaci mezi mobilním telefonem a PC:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "LPT" },
+                    { letter: "b", text: "IrDA" },
+                    { letter: "c", text: "SCSI" },
+                    { letter: "d", text: "USB" },
+                    { letter: "e", text: "Bluetooth" },
+                    { letter: "f", text: "IDE" }
+                ],
+                answer: ["b", "d", "e"]
+            },
+            {
+                id: 122,
+                text: "V jakém pásmu se používá WiMax v ČR:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Licencovaném" },
+                    { letter: "b", text: "Ani v jednom z vyjmenovaných" },
+                    { letter: "c", text: "Bezlicenčním" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 123,
+                text: "OSPF protokol můžeme charakterizovat takto:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "každý uzel testuje dostupnost svých sousedů" },
+                    { letter: "b", text: "výpočet cest je distribuovaný – každý počítá kousek" },
+                    { letter: "c", text: "každý uzel sestavuje 'link state packet' ve kterém uvede údaje o dostupnosti svých sousedů" },
+                    { letter: "d", text: "uzly si vyměňují aktualizace tvořené směrovým vektorem a jeho ohodnocením" },
+                    { letter: "e", text: "aktualizace (updaty) se vysílají každých 30 sekund" },
+                    { letter: "f", text: "'link state packet' je rozesílán všem uzlům v síti" }
+                ],
+                answer: ["a", "c", "f"]
+            },
+            {
+                id: 124,
+                text: "RIP protokol můžeme charakterizovat takto:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "Uzly si vyměňují aktualizace tvořené směrovým vektorem a jeho ohodnocením" },
+                    { letter: "b", text: "Aktualizace (updaty) se vysílají každých 30 sekund" },
+                    { letter: "c", text: "'link state packet' je rozesílán všem uzlům v síti" },
+                    { letter: "d", text: "Každý uzel testuje dostupnost svých sousedů" },
+                    { letter: "e", text: "Každý uzel sestavuje 'link state packet'" },
+                    { letter: "f", text: "Výpočet cest je distribuovaný – každý počítá kousek" }
+                ],
+                answer: ["a", "b"]
+            },
+            {
+                id: 125,
+                text: "Jaká přístupová metoda se používá u přenosu síťových dat přes rozvody 230V:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Aloha" },
+                    { letter: "b", text: "CSMA/CD" },
+                    { letter: "c", text: "CSMA/CA" },
+                    { letter: "d", text: "Token ring" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 126,
+                text: "Kolik bitů přeneseme v daném okamžiku 8PSK modulací:",
+                type: "text",
+                answer: "3"
+            },
+            {
+                id: 127,
+                text: "Které poštovní protokoly umožňují šifrovaný přenos dat:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "SMTP" },
+                    { letter: "b", text: "POP3" },
+                    { letter: "c", text: "IMAP4" }
+                ],
+                answer: ["a", "b", "c"]
+            },
+            {
+                id: 128,
+                text: "Má-li provider 20 účastníků, každý s kapacitou linky 2Gb/s a sám má odchozí linku do Internetu o kapacitě 2Gb/s jde o:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "1:25" },
+                    { letter: "b", text: "1:10" },
+                    { letter: "c", text: "1:20" },
+                    { letter: "d", text: "1:2" },
+                    { letter: "e", text: "1:5" },
+                    { letter: "f", text: "1:1" }
+                ],
+                answer: ["c"]
+            },
+            {
+                id: 129,
+                text: "Na jakou maximální vzdálenost se lze připojit u LTE (km):",
+                type: "text",
+                answer: "Desítky"
+            },
+            {
+                id: 130,
+                text: "DHCP je zpětně kompatibilní s BootP:",
+                type: "text",
+                answer: "Pravda"
+            },
+            {
+                id: 131,
+                text: "Jaký typ přenosu je možný u VDSL/VDSL2:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Pouze symetrický" },
+                    { letter: "b", text: "Asymetrický i symetrický" },
+                    { letter: "c", text: "Pouze asymetrický" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 132,
+                text: "Mobilní sítě 5G jsou:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "HW a SW nádstavbou na sítě LTE" },
+                    { letter: "b", text: "HW a SW nádstavbou na sítě GSM" },
+                    { letter: "c", text: "HW a SW nádstavbou na sítě UMTS" },
+                    { letter: "d", text: "samostatně budované sítě" }
+                ],
+                answer: ["d"]
+            },
+            {
+                id: 133,
+                text: "Na jakou maximální vzdálenost řádově km se u LTE můžete připojit mobilním zařízením:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Jednotky" },
+                    { letter: "b", text: "Desítky" },
+                    { letter: "c", text: "Stovky" },
+                    { letter: "d", text: "Tisíce" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 134,
+                text: "Jakou maximální vzdálenost řádově v metrech můžete přenášet data pomocí rozvodů 230V:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Stovky" },
+                    { letter: "b", text: "Desítky" },
+                    { letter: "c", text: "Tisíce" },
+                    { letter: "d", text: "Jednotky" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 135,
+                text: "Zařízení, která nemají statickou IP adresu (pohybují se po internetu):",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Nemohou mít funkční doménové jméno v kterémkoliv okamžiku" },
+                    { letter: "b", text: "Mohou mít funkční doménové jméno v kterémkoliv okamžiku v DNS i DDNS" },
+                    { letter: "c", text: "Mohou mít funkční doménové jméno v kterémkoliv okamžiku pouze u DNS" },
+                    { letter: "d", text: "Mohou mít funkční doménové jméno v kterémkoliv okamžiku pouze v DDNS" }
+                ],
+                answer: ["d"]
+            },
+            {
+                id: 136,
+                text: "Které parametry musí přidělit DHCP server koncovému zařízení, aby mohlo pracovat ve více LAN protokolem TCP/IP s připojením do internetu:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "IP adresu NTP serveru" },
+                    { letter: "b", text: "IP adresu WINS serveru" },
+                    { letter: "c", text: "IP adresu brány" },
+                    { letter: "d", text: "Masku sítě/délku prefixu" },
+                    { letter: "e", text: "IP adresu DNS serveru" },
+                    { letter: "f", text: "IP adresu" }
+                ],
+                answer: ["c", "d", "e", "f"]
+            },
+            {
+                id: 137,
+                text: "Na obrázku je model sítě:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "S autonomními systémy" },
+                    { letter: "b", text: "Bez autonomních systémů" },
+                    { letter: "c", text: "S neautonomními systémy" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 138,
+                text: "BootP (Boot Protocol) přiděluje síťové parametry:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "staticky i dynamicky" },
+                    { letter: "b", text: "pouze staticky" },
+                    { letter: "c", text: "pouze dynamicky" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 139,
+                text: "Při přeposílání e-mailu mezi poštovními servery, cílový poštovní server přijme mail z těchto podmínek:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "adresát má na cílovém poštovním serveru účet roven jménu v cílové adrese" },
+                    { letter: "b", text: "cílová poštovní adresa je vedena v rozesílacím seznamu na cílovém serveru" },
+                    { letter: "c", text: "cílový poštovní server pracuje pro doménu v cílové mailové adrese" },
+                    { letter: "d", text: "adresát nemá plný účet na cílovém poštovním serveru" }
+                ],
+                answer: ["a", "b", "c"]
+            },
+            {
+                id: 140,
+                text: "Které protokoly se používají u sítí VPN na 4 a 5 vrstvě 5 vrstvého modelu TCP/IP:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "TLS (Transport Layer Security)" },
+                    { letter: "b", text: "GRE (Generic Routing Encapsulation)" },
+                    { letter: "c", text: "IPsec" },
+                    { letter: "d", text: "L2TP (Layer 2 Tunneling Protocol)" },
+                    { letter: "e", text: "SSL (Secure Socket Layer)" },
+                    { letter: "f", text: "PPTP (Point-to-Point Tunneling Protocol)" },
+                    { letter: "g", text: "IPoverIP" }
+                ],
+                answer: ["a", "e"]
+            },
+            {
+                id: 141,
+                text: "Pokud budu chtít směřovat data mezi dvěma VLAN na jednom přepínači, musím použít:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "L2 přepínač napojený trunkem na směrovač" },
+                    { letter: "b", text: "L3 přepínač" },
+                    { letter: "c", text: "L2 přepínač napojený trunkem na L3 přepínač" },
+                    { letter: "d", text: "L2 přepínač napojený pomocí dvou netrunkovaných linek na směrovač" }
+                ],
+                answer: ["a", "b", "c", "d"]
+            },
+            {
+                id: 142,
+                text: "U protokolu OSPF:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Všechny směrovače si navzájem předávají celé své směrovací tabulky" },
+                    { letter: "b", text: "Všechny směrovače navzájem si předávají jen údaje o průchodnosti cest k sousedům" },
+                    { letter: "c", text: "Jen sousední směrovače si předávají celé své směrovací tabulky" },
+                    { letter: "d", text: "Jen sousední směrovače si předávají údaje o průchodnosti cest k sousedům" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 143,
+                text: "Který příkaz slouží k ověření činnosti DNS serveru:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "ipconfig" },
+                    { letter: "b", text: "nslookup" },
+                    { letter: "c", text: "ping" },
+                    { letter: "d", text: "traceroute, tracert" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 144,
+                text: "Jaká je řadově maximální přenosová rychlost DL u VDSL2 v Mb/s:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "jednotky" },
+                    { letter: "b", text: "stovky" },
+                    { letter: "c", text: "desítky" },
+                    { letter: "d", text: "tisíce" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 145,
+                text: "RIP protokol můžeme charakterizovat takto:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "podporuje load balancing" },
+                    { letter: "b", text: "alternativní cesty nejsou uvažovány" },
+                    { letter: "c", text: "update obsahují údaje o dostupnosti ostatních uzlů z daného uzlu" },
+                    { letter: "d", text: "umožňuje rozdělení sítě na menší areas" },
+                    { letter: "e", text: "každý je závislý na ostatních" },
+                    { letter: "f", text: "aktualizace se posílají jen k přímým sousedům" },
+                    { letter: "g", text: "každý počítá za sebe" },
+                    { letter: "h", text: "umožňuje definovat různé cesty pro různé druhy provozu" }
+                ],
+                answer: ["a", "f", "g"]
+            },
+            {
+                id: 146,
+                text: "Protokol IMAP4 má následující vlastnosti ve výchozím nastavení:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "protokol umožňuje pomocí poštovního serveru synchronizaci mailů na všech klientech" },
+                    { letter: "b", text: "po smazání e-mailu na klientovi se mail nemaže na serveru" },
+                    { letter: "c", text: "po stažení e-mailu ze serveru na klienta se mail na serveru nemaže" },
+                    { letter: "d", text: "po stažení e-mailu ze serveru na klienta se mail na serveru maže" },
+                    { letter: "e", text: "protokol neumožňuje synchronizaci mailů" },
+                    { letter: "f", text: "po smazání e-mailu na klientovi se mail maže i na serveru a na všech ostatních klientech" }
+                ],
+                answer: ["a", "c", "f"]
+            },
+            {
+                id: 147,
+                text: "Jaký parametr musí správce přidělit k IP adrese koncového zařízení v případě statického přidělování sítových parametrů na DHCP serveru:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "IP adresu DNS serveru" },
+                    { letter: "b", text: "IP adresu nejbližší brány" },
+                    { letter: "c", text: "Ethernetovou adresu nejbližší brány" },
+                    { letter: "d", text: "MAC adresu koncového zařízení" }
+                ],
+                answer: ["d"]
+            },
+            {
+                id: 148,
+                text: "Ke které verzi BINDu patří níže uvedené řádky: Zone '194.27.81.in-addr.arpa'{ Type slave; File '81.27.194.'; Masters {81.27.194.102.} (číslo)",
+                type: "text",
+                answer: "8"
+            },
+            {
+                id: 149,
+                text: "Které seřazení variant DSL od nejnižší po nejvyšší teoretickou hodnotu DL je správné:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "VDSL2, VDSL, ADSL++, ADSL+, ADSL" },
+                    { letter: "b", text: "ADSL, ADSL+, ADSL++, VDSL, VDSL2" },
+                    { letter: "c", text: "VDSL, VDSL2, ADSL, ADSL+, ADSL++" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 150,
+                text: "Jak se jmenuje softwarová součást Windows Microsoft, která realizuje ve Windows NAT (1 slovo):",
+                type: "text",
+                answer: "WinRoute"
             }
         ];
 
         let correctCount = 0;
         let incorrectCount = 0;
         let answeredQuestions = new Set();
+        let currentMode = 'learning'; // 'learning' or 'test'
+
+        function setMode(mode) {
+            currentMode = mode;
+
+            // Update button states
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Add/remove learning mode class
+            const container = document.getElementById('questions-container');
+            if (mode === 'learning') {
+                container.classList.add('learning-mode');
+            } else {
+                container.classList.remove('learning-mode');
+            }
+
+            resetQuiz();
+        }
 
         function renderQuestions() {
             const container = document.getElementById('questions-container');
@@ -1583,17 +2202,22 @@
                     `;
                 } else {
                     const multiNote = q.type === 'multi' ? '<p class="multi-note">Vyberte všechny správné odpovědi a klikněte na tlačítko</p>' : '';
+                    const learningNote = currentMode === 'learning' ? '<p class="multi-note" style="color: #00ff88;">✓ Správné odpovědi jsou zvýrazněny zeleně</p>' : '';
                     optionsHtml = `
                         <div class="options" id="options-${q.id}">
-                            ${q.options.map(opt => `
-                                <div class="option" data-letter="${opt.letter}" onclick="selectOption(${q.id}, '${opt.letter}', '${q.type}')">
-                                    <span class="option-letter">${opt.letter.toUpperCase()}</span>
-                                    <span class="option-text">${opt.text}</span>
-                                </div>
-                            `).join('')}
+                            ${q.options.map(opt => {
+                                const isCorrect = q.answer.includes(opt.letter);
+                                const correctClass = currentMode === 'learning' && isCorrect ? 'correct' : '';
+                                return `
+                                    <div class="option ${correctClass}" data-letter="${opt.letter}" onclick="selectOption(${q.id}, '${opt.letter}', '${q.type}')">
+                                        <span class="option-letter">${opt.letter.toUpperCase()}</span>
+                                        <span class="option-text">${opt.text}</span>
+                                    </div>
+                                `;
+                            }).join('')}
                         </div>
-                        ${multiNote}
-                        ${q.type === 'multi' ? `<button class="check-btn" style="margin-top: 15px;" onclick="checkMultiAnswer(${q.id})">Zkontrolovat</button>` : ''}
+                        ${currentMode === 'learning' ? learningNote : multiNote}
+                        ${currentMode === 'test' && q.type === 'multi' ? `<button class="check-btn" style="margin-top: 15px;" onclick="checkMultiAnswer(${q.id})">Zkontrolovat</button>` : ''}
                         <div class="feedback" id="feedback-${q.id}"></div>
                     `;
                 }
