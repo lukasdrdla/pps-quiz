@@ -301,6 +301,31 @@
             margin-right: 20px;
         }
 
+        .section-selector {
+            display: inline-block;
+            margin-right: 20px;
+        }
+
+        .section-selector select {
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: 2px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .section-selector select:hover {
+            border-color: rgba(0,217,255,0.5);
+        }
+
+        .section-selector select option {
+            background: #1a1a2e;
+            color: #fff;
+        }
+
         .mode-btn {
             padding: 10px 25px;
             border-radius: 25px;
@@ -394,6 +419,13 @@
             <div class="mode-toggle">
                 <button class="mode-btn active" onclick="setMode('learning')">📚 Učit se</button>
                 <button class="mode-btn" onclick="setMode('test')">✍️ Testovat</button>
+            </div>
+            <div class="section-selector">
+                <select id="section-select" onchange="changeSection()">
+                    <option value="all">📖 Všechny (1-150)</option>
+                    <option value="1">📘 Sekce 1 (1-100)</option>
+                    <option value="2">📗 Sekce 2 (101-150)</option>
+                </select>
             </div>
             <button class="shuffle-btn" onclick="shuffleQuiz()">🔀 Přeházet</button>
             <button class="reset-btn" onclick="resetQuiz()">🔄 Reset</button>
@@ -2152,10 +2184,28 @@
             }
         ];
 
+        let allQuestions = [...questions]; // Store all questions
+        let currentSection = 'all';
         let correctCount = 0;
         let incorrectCount = 0;
         let answeredQuestions = new Set();
         let currentMode = 'learning'; // 'learning' or 'test'
+
+        function changeSection() {
+            const selector = document.getElementById('section-select');
+            currentSection = selector.value;
+
+            // Filter questions based on section
+            if (currentSection === 'all') {
+                questions = [...allQuestions];
+            } else if (currentSection === '1') {
+                questions = allQuestions.filter(q => q.id >= 1 && q.id <= 100);
+            } else if (currentSection === '2') {
+                questions = allQuestions.filter(q => q.id >= 101 && q.id <= 150);
+            }
+
+            resetQuiz();
+        }
 
         function setMode(mode) {
             currentMode = mode;
@@ -2362,11 +2412,11 @@
         }
 
         function shuffleQuiz() {
-            // Shuffle questions order
-            questions = shuffleArray(questions);
+            // Shuffle all questions in allQuestions first
+            allQuestions = shuffleArray(allQuestions);
 
-            // Shuffle options for each question (but keep correct answers mapped)
-            questions.forEach(q => {
+            // Shuffle options for each question in allQuestions (but keep correct answers mapped)
+            allQuestions.forEach(q => {
                 if (q.options && q.options.length > 0) {
                     // Store which texts are correct
                     const correctTexts = q.answer.map(letter =>
@@ -2388,6 +2438,15 @@
                         .map(opt => opt.letter);
                 }
             });
+
+            // Re-filter questions based on current section
+            if (currentSection === 'all') {
+                questions = [...allQuestions];
+            } else if (currentSection === '1') {
+                questions = allQuestions.filter(q => q.id >= 1 && q.id <= 100);
+            } else if (currentSection === '2') {
+                questions = allQuestions.filter(q => q.id >= 101 && q.id <= 150);
+            }
 
             // Reset quiz state
             resetQuiz();
