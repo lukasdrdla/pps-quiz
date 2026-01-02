@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MP Quiz - Multiplatformní programování</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, #ff6b6b, #feca57);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            background: rgba(255,255,255,0.1);
+            padding: 15px 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-box span {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #feca57;
+        }
+
+        .question-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .question-card:hover {
+            border-color: rgba(255,107,107,0.3);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .question-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .question-number {
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            color: #1a1a2e;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .question-type {
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.1);
+            color: #aaa;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #e0e0e0;
+        }
+
+        .code-block {
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            color: #a8d8a8;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .option {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .option:hover:not(.disabled) {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,107,107,0.5);
+            transform: translateX(5px);
+        }
+
+        .option.selected {
+            border-color: #feca57;
+            background: rgba(254,202,87,0.1);
+        }
+
+        .option.correct {
+            border-color: #00ff88;
+            background: rgba(0,255,136,0.15);
+        }
+
+        .option.incorrect {
+            border-color: #ff4757;
+            background: rgba(255,71,87,0.15);
+        }
+
+        .option.disabled {
+            cursor: default;
+        }
+
+        .option-letter {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .option.correct .option-letter {
+            background: #00ff88;
+            color: #1a1a2e;
+        }
+
+        .option.incorrect .option-letter {
+            background: #ff4757;
+            color: #fff;
+        }
+
+        .text-input-container {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .text-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 15px 20px;
+            border-radius: 12px;
+            border: 2px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .text-input:focus {
+            border-color: #feca57;
+        }
+
+        .text-input.correct {
+            border-color: #00ff88;
+            background: rgba(0,255,136,0.15);
+        }
+
+        .text-input.incorrect {
+            border-color: #ff4757;
+            background: rgba(255,71,87,0.15);
+        }
+
+        .check-btn {
+            padding: 15px 30px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            color: #1a1a2e;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .check-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255,107,107,0.4);
+        }
+
+        .check-btn:disabled {
+            opacity: 0.5;
+            cursor: default;
+            transform: none;
+        }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+            font-weight: 500;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: rgba(0,255,136,0.15);
+            color: #00ff88;
+            border: 1px solid rgba(0,255,136,0.3);
+        }
+
+        .feedback.incorrect {
+            background: rgba(255,71,87,0.15);
+            color: #ff4757;
+            border: 1px solid rgba(255,71,87,0.3);
+        }
+
+        .reset-btn {
+            display: block;
+            margin: 40px auto;
+            padding: 15px 40px;
+            border-radius: 30px;
+            border: 2px solid #ff6b6b;
+            background: transparent;
+            color: #ff6b6b;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .reset-btn:hover {
+            background: #ff6b6b;
+            color: #1a1a2e;
+        }
+
+        .multi-note {
+            font-size: 0.85rem;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #feca57;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .settings-panel {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 15px 20px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .settings-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .setting-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .setting-label {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 26px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.1);
+            border-radius: 26px;
+            transition: 0.3s;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background: #fff;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        .toggle-switch input:checked + .toggle-slider {
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+        }
+
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+
+        .mode-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .mode-btn {
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: 2px solid rgba(255,255,255,0.2);
+            background: transparent;
+            color: #aaa;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .mode-btn:hover {
+            border-color: rgba(255,107,107,0.5);
+        }
+
+        .mode-btn.active {
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            border-color: transparent;
+            color: #1a1a2e;
+            font-weight: bold;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .question-card {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">&larr; Zpět na výběr quizů</a>
+
+        <header>
+            <h1>MP Quiz</h1>
+            <p style="color: #888;">Multiplatformní programování - Qt</p>
+        </header>
+
+        <div class="settings-panel" id="settings-panel">
+            <div class="settings-row">
+                <div class="setting-group">
+                    <span class="setting-label">Zamíchat otázky</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="shuffle-questions" onchange="restartQuiz()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="setting-group">
+                    <span class="setting-label">Zamíchat odpovědi</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="shuffle-answers" onchange="restartQuiz()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="setting-group">
+                    <span class="setting-label">Režim:</span>
+                    <div class="mode-buttons">
+                        <button class="mode-btn active" data-mode="learn" onclick="setMode('learn')">Učení</button>
+                        <button class="mode-btn" data-mode="test" onclick="setMode('test')">Test</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats" id="stats-panel">
+            <div class="stat-box">
+                Správně: <span id="correct-count">0</span>
+            </div>
+            <div class="stat-box">
+                Špatně: <span id="incorrect-count">0</span>
+            </div>
+            <div class="stat-box">
+                Zbývá: <span id="remaining-count">65</span>
+            </div>
+        </div>
+
+        <div id="questions-container"></div>
+
+        <button class="reset-btn" onclick="resetQuiz()">Resetovat quiz</button>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                id: 1,
+                text: "Které z těchto maker označuje v QtWidgets textovou konstantu určenou k překladu?",
+                type: "single",
+                options: [
+                    { letter: "a", text: 'string("Hello world")' },
+                    { letter: "b", text: 'str("Hello world")' },
+                    { letter: "c", text: 'tr("Hello world")' },
+                    { letter: "d", text: 'translate("Hello world")' }
+                ],
+                answer: ["c"]
+            },
+            {
+                id: 2,
+                text: "Které z níže uvedených programovacích jazyků patří mezi neinterpretované (uvažujme jejich základní implementace)?",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "Python" },
+                    { letter: "b", text: "Java" },
+                    { letter: "c", text: "Assembler" },
+                    { letter: "d", text: "C/C++" }
+                ],
+                answer: ["c", "d"]
+            },
+            {
+                id: 3,
+                text: "Které z následujících komponent v QML skládají prvky přímo za sebe s předdefinovanou mezerou?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Column" },
+                    { letter: "b", text: "Row" },
+                    { letter: "c", text: "RowLayout" },
+                    { letter: "d", text: "ColumnLayout" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 4,
+                text: "Je tento programový kód přenositelný mezi platformami MS Windows a Linux?",
+                type: "single",
+                code: '#include <stdio.h>\n#include <time.h>\nint main() {\n  time_t seconds = time(NULL);\n  printf("%ld hours since January 1, 1970", seconds/3600);\n  printf("Press ENTER to exit...");\n  getch();\n}',
+                options: [
+                    { letter: "a", text: "Pravda" },
+                    { letter: "b", text: "Nepravda" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 5,
+                text: "Jaká je role Qt Event Loop (smyčky událostí)?",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "Detekce nedostatku paměti" },
+                    { letter: "b", text: "Zpracování asynchronních slotů" },
+                    { letter: "c", text: "Zpracovávat uživatelské události (kliknutí, vstup z klávesnice,...)" }
+                ],
+                answer: ["b", "c"]
+            },
+            {
+                id: 6,
+                text: "Název negrafického prvku v QML užívaného pro vytvoření oblasti reagující na událost myši:",
+                type: "text",
+                answer: "MouseArea"
+            },
+            {
+                id: 7,
+                text: "Co je QMake?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Aplikace pro interpretaci příkazů z knihovny Qt" },
+                    { letter: "b", text: "Překladač pro knihovnu Qt" },
+                    { letter: "c", text: "Build system - aplikace pro generování konkrétních projektových souborů na základě obecného popisu projektu" }
+                ],
+                answer: ["c"]
+            },
+            {
+                id: 8,
+                text: 'Je následující tvrzení pravdivé: "Z QML je možné volat funkce implementované v C++"',
+                type: "single",
+                options: [
+                    { letter: "a", text: "Pravda" },
+                    { letter: "b", text: "Nepravda" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 9,
+                text: "Je pravda, že je rozdíl při použití prvků Column a ColumnLayout pro pozicování prvků?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Pravda" },
+                    { letter: "b", text: "Nepravda" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 10,
+                text: "Je možné zdědit a upravit chování hotových prvků (např. QLabel, QTextEdit,...)?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "ANO, ale jen těch, které jsou jednoduché" },
+                    { letter: "b", text: "Ne" },
+                    { letter: "c", text: "Ano" }
+                ],
+                answer: ["c"]
+            },
+            {
+                id: 11,
+                text: "Které z níže uvedených programovacích jazyků patří mezi interpretované (uvažujme jejich základní implementace)?",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "C/C++" },
+                    { letter: "b", text: "Assembler" },
+                    { letter: "c", text: "Python" },
+                    { letter: "d", text: "Java" }
+                ],
+                answer: ["c", "d"]
+            },
+            {
+                id: 12,
+                text: "Jaké typy pozicování lze v QML používat?",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "Ukotvení" },
+                    { letter: "b", text: "Layouty" },
+                    { letter: "c", text: "Absolutní" }
+                ],
+                answer: ["a", "b", "c"]
+            },
+            {
+                id: 13,
+                text: "Je možné mít stejnou instanci objektu přístupnou z C++ i QML?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Pravda" },
+                    { letter: "b", text: "Nepravda" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 14,
+                text: "Kde je možné objekty vytvářet?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Obojí (na stacku i na heapu)" },
+                    { letter: "b", text: "Na stacku" },
+                    { letter: "c", text: "Na heapu" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 15,
+                text: "K čemu slouží Qt Style Sheets?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "K změně vzhledu Qt widgetů" },
+                    { letter: "b", text: "K změně chování Qt widgetů" },
+                    { letter: "c", text: "K propojování Qt widgetů" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 16,
+                text: "Má QSpacerItem grafickou reprezentaci?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Pravda" },
+                    { letter: "b", text: "Nepravda" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 17,
+                text: "Je možné vytvořit uživatelský grafický prvek v QML?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Ne" },
+                    { letter: "b", text: "Ano, za použití JavaScriptu" },
+                    { letter: "c", text: "Ano, za použití HTML značek" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 18,
+                text: "Používají se k vykreslování Qt Widgetů odlišné komponenty v závislosti na OS?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Pravda" },
+                    { letter: "b", text: "Nepravda" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 19,
+                text: "Které z těchto věcí mohou být připojené na signal v knihovně Qt?",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "Nečlenská funkce" },
+                    { letter: "b", text: "Členská funkce třídy" },
+                    { letter: "c", text: "Lambda funkce" },
+                    { letter: "d", text: "Jiný signál" },
+                    { letter: "e", text: "Slot" }
+                ],
+                answer: ["a", "b", "c", "d", "e"]
+            },
+            {
+                id: 20,
+                text: "Jaká je základní třída pro grafické objekty v knihovně Qt?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "QWindow" },
+                    { letter: "b", text: "QObject" },
+                    { letter: "c", text: "QWidget" },
+                    { letter: "d", text: "QBase" }
+                ],
+                answer: ["c"]
+            },
+            {
+                id: 21,
+                text: 'Co představuje pojem "platformně závislé programování"?',
+                type: "single",
+                options: [
+                    { letter: "a", text: "Vytváření aplikací využitelných pouze pro jeden typ prováděných operací" },
+                    { letter: "b", text: "Vytváření aplikací, které mohou být spuštěny na různých SW a HW platformách" },
+                    { letter: "c", text: "Vytváření aplikací optimalizovaných pro specifický operační systém nebo HW konfiguraci" }
+                ],
+                answer: ["c"]
+            },
+            {
+                id: 22,
+                text: "Které z následujících komponent v QML rozprostřou prvky po celé přidělené ploše?",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "RowLayout" },
+                    { letter: "b", text: "ColumnLayout" },
+                    { letter: "c", text: "Column" },
+                    { letter: "d", text: "Row" }
+                ],
+                answer: ["a", "b"]
+            },
+            {
+                id: 23,
+                text: "Jaký je v QML základní prvek, od kterého dědí ostatní?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Object" },
+                    { letter: "b", text: "Variant" },
+                    { letter: "c", text: "Item" }
+                ],
+                answer: ["c"]
+            },
+            {
+                id: 24,
+                text: "Jak se jmenuje komponenta pro jednořádkový textový vstup?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "QLine" },
+                    { letter: "b", text: "QTextEdit" },
+                    { letter: "c", text: "QTextArea" },
+                    { letter: "d", text: "QEdit" },
+                    { letter: "e", text: "QLineEdit" }
+                ],
+                answer: ["e"]
+            },
+            {
+                id: 25,
+                text: "Jak se jmenuje v Qt typ, který může obsahovat data různých typů?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "QVariant" },
+                    { letter: "b", text: "QPolymorph" },
+                    { letter: "c", text: "QVariator" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 26,
+                text: "Musí být každá třída aplikace zděděná od QObject při použití knihovny Qt?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Pravda" },
+                    { letter: "b", text: "Nepravda" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 27,
+                text: "Co je interpretovaný programovací jazyk?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Takový programovací jazyk, jehož zdrojové kódy mohou být přímo spouštěny pomocí run-time běhových knihoven" },
+                    { letter: "b", text: "Takový programovací jazyk, kde zdrojové kódy pomocí něho vytvořené jsou kompilovány a linkovány do spustitelného souboru" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 28,
+                text: "Které z následujících tříd představují třídy vestavěných layout managerů?",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "QGridLayout" },
+                    { letter: "b", text: "QDiagonalLayout" },
+                    { letter: "c", text: "QFormLayout" },
+                    { letter: "d", text: "QVBoxLayout" },
+                    { letter: "e", text: "QCrossLayout" },
+                    { letter: "f", text: "QHBoxLayout" }
+                ],
+                answer: ["a", "c", "d", "f"]
+            },
+            {
+                id: 29,
+                text: "Co se stane s obsahem kontejneru při předávání parametrem?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Kontejner je sdílený (zápis se projeví v původním umístění i v novém)" },
+                    { letter: "b", text: "Obsah kontejneru je zkopírován" },
+                    { letter: "c", text: "Obsah je sdílený ale při zápisu se zkopíruje (Copy-on-Write)" }
+                ],
+                answer: ["c"]
+            },
+            {
+                id: 30,
+                text: "Které z následujících kontejnerů Qt implementuje?",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "Trie" },
+                    { letter: "b", text: "Hash table" },
+                    { letter: "c", text: "Vector" },
+                    { letter: "d", text: "List" }
+                ],
+                answer: ["b", "c", "d"]
+            },
+            {
+                id: 31,
+                text: 'Co je to "smyčka zpráv"?',
+                type: "multi",
+                options: [
+                    { letter: "a", text: "Funkce, ve které jsou jednotlivé zprávy zpracovávány" },
+                    { letter: "b", text: "Cyklus, ve kterém jsou zprávy vybírány z fronty zpráv a předávány dál ke zpracování" },
+                    { letter: "c", text: 'Stav, do kterého se může libovolná aplikace dostat tak, že se zacyklí tok zpráv, což se projeví "zamrznutím" aplikace' },
+                    { letter: "d", text: "Cyklus, ve kterém mohou být zprávy jak vyjímány z fronty zpráv, tak i do této fronty zpět zařazovány" }
+                ],
+                answer: ["b", "d"]
+            },
+            {
+                id: 32,
+                text: "Jak se jmenuje komponenta pro jednoduché tlačítko?",
+                type: "text",
+                answer: "QPushButton"
+            },
+            {
+                id: 33,
+                text: "Jaká je základní třída pro negrafické objekty v knihovně Qt?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "QWindow" },
+                    { letter: "b", text: "QBase" },
+                    { letter: "c", text: "QWidget" },
+                    { letter: "d", text: "QObject" }
+                ],
+                answer: ["d"]
+            },
+            {
+                id: 34,
+                text: "Je následující tvrzení pravdivé: Při tvorbě GUI pomocí QtWidgets je možné pozicovat prvky pouze pomocí layoutů.",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Pravda" },
+                    { letter: "b", text: "Nepravda" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 35,
+                text: "Je možné v obslužném slotu zjistit, který objekt událost vyvolal?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Pravda" },
+                    { letter: "b", text: "Nepravda" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 36,
+                text: "Co je CMake?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Překladač pro C++" },
+                    { letter: "b", text: "Textový editor pro programátory" },
+                    { letter: "c", text: "Nástroj pro generování projektových souborů a správu překladu na různých platformách" },
+                    { letter: "d", text: "Debugger pro multiplatformní aplikace" }
+                ],
+                answer: ["c"]
+            },
+            {
+                id: 37,
+                text: "Jak se jmenuje konfigurační soubor pro CMake?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Makefile" },
+                    { letter: "b", text: "cmake.conf" },
+                    { letter: "c", text: "CMakeLists.txt" },
+                    { letter: "d", text: "project.cmake" }
+                ],
+                answer: ["c"]
+            },
+            {
+                id: 38,
+                text: "Který příkaz v CMake definuje spustitelnou aplikaci?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "create_executable()" },
+                    { letter: "b", text: "add_executable()" },
+                    { letter: "c", text: "build_app()" },
+                    { letter: "d", text: "make_executable()" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 39,
+                text: "Jaké jsou možné hodnoty CMAKE_BUILD_TYPE?",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "Debug" },
+                    { letter: "b", text: "Release" },
+                    { letter: "c", text: "RelWithDebInfo" },
+                    { letter: "d", text: "MinSizeRel" },
+                    { letter: "e", text: "Optimize" }
+                ],
+                answer: ["a", "b", "c", "d"]
+            },
+            {
+                id: 40,
+                text: "Jaký je rozdíl mezi STATIC a SHARED knihovnou v CMake?",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "STATIC knihovna je vložena přímo do výsledného programu při linkování" },
+                    { letter: "b", text: "SHARED knihovna je načítána dynamicky za běhu programu" },
+                    { letter: "c", text: "STATIC knihovna je rychlejší než SHARED" },
+                    { letter: "d", text: "Žádný rozdíl není" }
+                ],
+                answer: ["a", "b"]
+            },
+            {
+                id: 41,
+                text: "Co dělá příkaz target_link_libraries() v CMake?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Vytváří novou knihovnu" },
+                    { letter: "b", text: "Připojuje knihovnu k cílovému programu/knihovně" },
+                    { letter: "c", text: "Kompiluje zdrojové soubory" },
+                    { letter: "d", text: "Nastavuje cestu ke knihovnám" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 42,
+                text: "Co je signál v Qt?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Oznámení, které objekt vysílá při určité události" },
+                    { letter: "b", text: "Funkce pro zpracování vstupu z klávesnice" },
+                    { letter: "c", text: "Typ proměnné pro komunikaci mezi vlákny" },
+                    { letter: "d", text: "Chybová zpráva systému" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 43,
+                text: "Co je slot v Qt?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Metoda, která může být volána jako reakce na signál" },
+                    { letter: "b", text: "Paměťový prostor pro uložení dat" },
+                    { letter: "c", text: "Grafický prvek pro zobrazení textu" },
+                    { letter: "d", text: "Typ události myši" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 44,
+                text: "Jaká je správná syntaxe pro propojení signálu a slotu v Qt5/Qt6?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "connect(sender, &Sender::signal, receiver, &Receiver::slot);" },
+                    { letter: "b", text: "bind(sender->signal, receiver->slot);" },
+                    { letter: "c", text: "link(sender, signal, receiver, slot);" },
+                    { letter: "d", text: "sender->signal.attach(receiver->slot);" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 45,
+                text: "Co musí obsahovat třída, která chce používat signály a sloty?",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "Makro Q_OBJECT" },
+                    { letter: "b", text: "Musí dědit od QObject (přímo nebo nepřímo)" },
+                    { letter: "c", text: "Musí být definována v souboru .qml" },
+                    { letter: "d", text: "Musí implementovat rozhraní ISignalSlot" }
+                ],
+                answer: ["a", "b"]
+            },
+            {
+                id: 46,
+                text: "Co je Qt Event Loop (smyčka událostí)?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Cyklus, který zpracovává události a signály v Qt aplikaci" },
+                    { letter: "b", text: "Nástroj pro ladění Qt aplikací" },
+                    { letter: "c", text: "Grafický prvek pro zobrazení animací" },
+                    { letter: "d", text: "Metoda pro opakované spouštění funkcí" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 47,
+                text: "Jak se v Qt zpracovávají události (events)?",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "Přepsáním virtuálních metod jako mousePressEvent(), keyPressEvent()" },
+                    { letter: "b", text: "Použitím event filteru pomocí installEventFilter()" },
+                    { letter: "c", text: "Pouze pomocí signálů a slotů" },
+                    { letter: "d", text: "Události v Qt nelze zpracovávat" }
+                ],
+                answer: ["a", "b"]
+            },
+            {
+                id: 48,
+                text: "Jaký je rozdíl mezi signálem a událostí (event) v Qt?",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "Signál je vysokoúrovňová abstrakce, událost je nízkoúrovňová zpráva od systému" },
+                    { letter: "b", text: "Signály propojují objekty, události přicházejí z operačního systému" },
+                    { letter: "c", text: "Žádný rozdíl, jsou to synonyma" },
+                    { letter: "d", text: "Události jsou rychlejší než signály" }
+                ],
+                answer: ["a", "b"]
+            },
+            {
+                id: 49,
+                text: "Co je QWidget?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Základní třída pro všechny grafické prvky v Qt Widgets" },
+                    { letter: "b", text: "Třída pro práci se soubory" },
+                    { letter: "c", text: "Kontejner pro ukládání dat" },
+                    { letter: "d", text: "Nástroj pro překlad aplikace" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 50,
+                text: "Jak lze v Qt vytvořit GUI aplikaci?",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "Ručně psaním kódu v C++" },
+                    { letter: "b", text: "Pomocí Qt Designer (UI soubory)" },
+                    { letter: "c", text: "Pouze pomocí QML" },
+                    { letter: "d", text: "GUI v Qt vytvořit nelze" }
+                ],
+                answer: ["a", "b"]
+            },
+            {
+                id: 51,
+                text: "Co je .ui soubor v Qt?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "XML soubor obsahující popis grafického rozhraní vytvořeného v Qt Designeru" },
+                    { letter: "b", text: "Zdrojový kód v jazyce C++" },
+                    { letter: "c", text: "Konfigurační soubor pro CMake" },
+                    { letter: "d", text: "Obrázek ikony aplikace" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 52,
+                text: "Jak se jmenuje nástroj pro vizuální návrh GUI v Qt?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Qt Builder" },
+                    { letter: "b", text: "Qt Designer" },
+                    { letter: "c", text: "Qt Creator (to je IDE, ne nástroj pro návrh GUI)" },
+                    { letter: "d", text: "Qt Composer" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 53,
+                text: "Co je QMainWindow?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Hlavní okno aplikace s podporou menu, toolbaru a statusbaru" },
+                    { letter: "b", text: "Dialogové okno pro zobrazení zpráv" },
+                    { letter: "c", text: "Widget pro zobrazení obrázků" },
+                    { letter: "d", text: "Třída pro práci s databází" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 54,
+                text: "Jaké Qt kontejnery znáte?",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "QList" },
+                    { letter: "b", text: "QVector" },
+                    { letter: "c", text: "QMap" },
+                    { letter: "d", text: "QHash" },
+                    { letter: "e", text: "QTree" }
+                ],
+                answer: ["a", "b", "c", "d"]
+            },
+            {
+                id: 55,
+                text: "Co je QVariant?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Typ, který může obsahovat hodnotu různých datových typů" },
+                    { letter: "b", text: "Konstantní proměnná" },
+                    { letter: "c", text: "Třída pro práci s variantami programu" },
+                    { letter: "d", text: "Typ pro ukládání pouze čísel" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 56,
+                text: "Co se stane s obsahem Qt kontejneru při předávání jako parametr funkce?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Obsah je vždy zkopírován" },
+                    { letter: "b", text: "Obsah je vždy sdílený (změny se projeví v originálu)" },
+                    { letter: "c", text: "Obsah je sdílený, ale při zápisu se zkopíruje (Copy-on-Write / Implicit Sharing)" }
+                ],
+                answer: ["c"]
+            },
+            {
+                id: 57,
+                text: "Která třída se používá pro práci se soubory v Qt?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "QFile" },
+                    { letter: "b", text: "QFileSystem" },
+                    { letter: "c", text: "QDocument" },
+                    { letter: "d", text: "QStorage" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 58,
+                text: "Která třída se používá pro práci s adresáři v Qt?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "QDir" },
+                    { letter: "b", text: "QFolder" },
+                    { letter: "c", text: "QPath" },
+                    { letter: "d", text: "QDirectory" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 59,
+                text: "Která třída poskytuje informace o souboru (velikost, datum, oprávnění)?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "QFileInfo" },
+                    { letter: "b", text: "QFileStats" },
+                    { letter: "c", text: "QFileDetails" },
+                    { letter: "d", text: "QFileMeta" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 60,
+                text: "Jak se v Qt čte textový soubor?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Pomocí QFile a QTextStream" },
+                    { letter: "b", text: "Pomocí QFileReader" },
+                    { letter: "c", text: "Pomocí QTextFile" },
+                    { letter: "d", text: "Soubory v Qt číst nelze" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 61,
+                text: "Co je emit v Qt?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Klíčové slovo pro vyslání signálu" },
+                    { letter: "b", text: "Příkaz pro ukončení programu" },
+                    { letter: "c", text: "Makro pro definici slotu" },
+                    { letter: "d", text: "Funkce pro zápis do souboru" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 62,
+                text: "Může být jeden signál připojen k více slotům?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Ano" },
+                    { letter: "b", text: "Ne" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 63,
+                text: "Může být více signálů připojeno k jednomu slotu?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Ano" },
+                    { letter: "b", text: "Ne" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 64,
+                text: "Lze signál připojit k jinému signálu?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Ano" },
+                    { letter: "b", text: "Ne" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 65,
+                text: "Jaké prvky mohou být připojené na signál v Qt?",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "Slot" },
+                    { letter: "b", text: "Jiný signál" },
+                    { letter: "c", text: "Lambda funkce" },
+                    { letter: "d", text: "Nečlenská funkce" },
+                    { letter: "e", text: "Členská funkce třídy" }
+                ],
+                answer: ["a", "b", "c", "d", "e"]
+            }
+        ];
+
+        let correctCount = 0;
+        let incorrectCount = 0;
+        let answeredQuestions = new Set();
+        let currentMode = 'learn';
+        let activeQuestions = [];
+
+        // Shuffle array (Fisher-Yates)
+        function shuffle(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function setMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.mode === mode);
+            });
+            restartQuiz();
+        }
+
+        function restartQuiz() {
+            const shuffleQ = document.getElementById('shuffle-questions').checked;
+            const shuffleA = document.getElementById('shuffle-answers').checked;
+
+            // Prepare questions
+            activeQuestions = questions.map(q => {
+                const newQ = { ...q };
+                if (shuffleA && q.options) {
+                    const shuffledOpts = shuffle(q.options);
+                    // Re-assign letters
+                    newQ.options = shuffledOpts.map((opt, idx) => ({
+                        ...opt,
+                        originalLetter: opt.letter,
+                        letter: String.fromCharCode(97 + idx)
+                    }));
+                    // Update answer letters
+                    newQ.answer = q.answer.map(ans => {
+                        const newOpt = newQ.options.find(o => o.originalLetter === ans);
+                        return newOpt ? newOpt.letter : ans;
+                    });
+                }
+                return newQ;
+            });
+
+            if (shuffleQ) {
+                activeQuestions = shuffle(activeQuestions);
+            }
+
+            // Reset stats
+            correctCount = 0;
+            incorrectCount = 0;
+            answeredQuestions.clear();
+            document.getElementById('correct-count').textContent = '0';
+            document.getElementById('incorrect-count').textContent = '0';
+            document.getElementById('remaining-count').textContent = activeQuestions.length;
+
+            renderQuestions();
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+
+            activeQuestions.forEach((q, index) => {
+                const card = document.createElement('div');
+                card.className = 'question-card';
+                card.id = `question-${q.id}`;
+
+                let typeLabel = '';
+                if (q.type === 'single') typeLabel = 'Jedna odpověď';
+                else if (q.type === 'multi') typeLabel = 'Více odpovědí';
+                else typeLabel = 'Písemná odpověď';
+
+                const codeHtml = q.code ? `<div class="code-block">${q.code}</div>` : '';
+
+                let optionsHtml = '';
+                if (q.type === 'text') {
+                    const showAnswer = currentMode === 'learn' ? `<div class="feedback show correct" style="margin-top: 15px;">Správná odpověď: ${q.answer}</div>` : '';
+                    optionsHtml = `
+                        <div class="text-input-container">
+                            <input type="text" class="text-input" id="input-${q.id}" placeholder="Zadejte odpověď...">
+                            <button class="check-btn" onclick="checkTextAnswer(${q.id})">Zkontrolovat</button>
+                        </div>
+                        ${showAnswer}
+                        <div class="feedback" id="feedback-${q.id}"></div>
+                    `;
+                } else {
+                    const multiNote = q.type === 'multi' ? '<p class="multi-note">Vyberte všechny správné odpovědi a klikněte na tlačítko</p>' : '';
+                    optionsHtml = `
+                        <div class="options" id="options-${q.id}">
+                            ${q.options.map(opt => {
+                                const isCorrect = q.answer.includes(opt.letter);
+                                const correctClass = (currentMode === 'learn' && isCorrect) ? ' correct' : '';
+                                return `
+                                <div class="option${correctClass}" data-letter="${opt.letter}" onclick="selectOption(${q.id}, '${opt.letter}', '${q.type}')">
+                                    <span class="option-letter">${opt.letter.toUpperCase()}</span>
+                                    <span class="option-text">${opt.text}</span>
+                                </div>
+                            `}).join('')}
+                        </div>
+                        ${multiNote}
+                        ${q.type === 'multi' ? `<button class="check-btn" style="margin-top: 15px;" onclick="checkMultiAnswer(${q.id})">Zkontrolovat</button>` : ''}
+                        <div class="feedback" id="feedback-${q.id}"></div>
+                    `;
+                }
+
+                card.innerHTML = `
+                    <div class="question-header">
+                        <span class="question-number">${index + 1}</span>
+                        <span class="question-type">${typeLabel}</span>
+                    </div>
+                    <p class="question-text">${q.text}</p>
+                    ${codeHtml}
+                    ${optionsHtml}
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        function selectOption(questionId, letter, type) {
+            if (answeredQuestions.has(questionId)) return;
+
+            const optionsContainer = document.getElementById(`options-${questionId}`);
+            const option = optionsContainer.querySelector(`[data-letter="${letter}"]`);
+            const question = activeQuestions.find(q => q.id === questionId);
+
+            if (type === 'single') {
+                const isCorrect = question.answer.includes(letter);
+
+                answeredQuestions.add(questionId);
+
+                optionsContainer.querySelectorAll('.option').forEach(opt => {
+                    opt.classList.add('disabled');
+                    if (question.answer.includes(opt.dataset.letter)) {
+                        opt.classList.add('correct');
+                    }
+                });
+
+                if (!isCorrect) {
+                    option.classList.add('incorrect');
+                }
+
+                showFeedback(questionId, isCorrect, question.answer);
+                updateStats(isCorrect);
+            } else {
+                option.classList.toggle('selected');
+            }
+        }
+
+        function checkMultiAnswer(questionId) {
+            if (answeredQuestions.has(questionId)) return;
+
+            const question = activeQuestions.find(q => q.id === questionId);
+            const optionsContainer = document.getElementById(`options-${questionId}`);
+            const selectedOptions = optionsContainer.querySelectorAll('.option.selected');
+            const selectedLetters = Array.from(selectedOptions).map(opt => opt.dataset.letter);
+
+            answeredQuestions.add(questionId);
+
+            const isCorrect = selectedLetters.length === question.answer.length &&
+                selectedLetters.every(l => question.answer.includes(l));
+
+            optionsContainer.querySelectorAll('.option').forEach(opt => {
+                opt.classList.add('disabled');
+                opt.classList.remove('selected');
+                if (question.answer.includes(opt.dataset.letter)) {
+                    opt.classList.add('correct');
+                } else if (selectedLetters.includes(opt.dataset.letter)) {
+                    opt.classList.add('incorrect');
+                }
+            });
+
+            showFeedback(questionId, isCorrect, question.answer);
+            updateStats(isCorrect);
+        }
+
+        function checkTextAnswer(questionId) {
+            if (answeredQuestions.has(questionId)) return;
+
+            const question = activeQuestions.find(q => q.id === questionId);
+            const input = document.getElementById(`input-${questionId}`);
+            const userAnswer = input.value.trim();
+
+            if (!userAnswer) return;
+
+            answeredQuestions.add(questionId);
+
+            const isCorrect = userAnswer.toLowerCase() === question.answer.toLowerCase();
+
+            input.classList.add(isCorrect ? 'correct' : 'incorrect');
+            input.disabled = true;
+            document.querySelector(`#question-${questionId} .check-btn`).disabled = true;
+
+            showFeedback(questionId, isCorrect, [question.answer]);
+            updateStats(isCorrect);
+        }
+
+        function showFeedback(questionId, isCorrect, correctAnswers) {
+            const feedback = document.getElementById(`feedback-${questionId}`);
+            feedback.className = `feedback show ${isCorrect ? 'correct' : 'incorrect'}`;
+
+            if (isCorrect) {
+                feedback.textContent = '✓ Správně!';
+            } else {
+                feedback.textContent = `✗ Špatně. Správná odpověď: ${correctAnswers.join(', ').toUpperCase()}`;
+            }
+        }
+
+        function updateStats(isCorrect) {
+            if (isCorrect) {
+                correctCount++;
+                document.getElementById('correct-count').textContent = correctCount;
+            } else {
+                incorrectCount++;
+                document.getElementById('incorrect-count').textContent = incorrectCount;
+            }
+            document.getElementById('remaining-count').textContent = activeQuestions.length - answeredQuestions.size;
+        }
+
+        function resetQuiz() {
+            restartQuiz();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Start quiz immediately on page load
+        restartQuiz();
+    </script>
+</body>
+</html>

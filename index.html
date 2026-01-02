@@ -29,7 +29,7 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             width: 100%;
             text-align: center;
         }
@@ -54,7 +54,7 @@
 
         .subjects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
             margin-top: 40px;
         }
@@ -72,9 +72,22 @@
         }
 
         .subject-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .subject-card.pps:hover {
             border-color: rgba(0,217,255,0.5);
             box-shadow: 0 10px 40px rgba(0,217,255,0.3);
-            transform: translateY(-5px);
+        }
+
+        .subject-card.mp:hover {
+            border-color: rgba(255,107,107,0.5);
+            box-shadow: 0 10px 40px rgba(255,107,107,0.3);
+        }
+
+        .subject-card.pv:hover {
+            border-color: rgba(160,100,255,0.5);
+            box-shadow: 0 10px 40px rgba(160,100,255,0.3);
         }
 
         .subject-icon {
@@ -85,11 +98,28 @@
         .subject-name {
             font-size: 1.8rem;
             font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .subject-card.pps .subject-name {
             background: linear-gradient(90deg, #00d9ff, #00ff88);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 10px;
+        }
+
+        .subject-card.mp .subject-name {
+            background: linear-gradient(90deg, #ff6b6b, #feca57);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subject-card.pv .subject-name {
+            background: linear-gradient(90deg, #a064ff, #ff64d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .subject-description {
@@ -99,9 +129,20 @@
         }
 
         .subject-count {
-            color: #00d9ff;
             font-size: 0.9rem;
             font-weight: 500;
+        }
+
+        .subject-card.pps .subject-count {
+            color: #00d9ff;
+        }
+
+        .subject-card.mp .subject-count {
+            color: #feca57;
+        }
+
+        .subject-card.pv .subject-count {
+            color: #a064ff;
         }
 
         footer {
@@ -133,18 +174,25 @@
         </header>
 
         <div class="subjects-grid">
-            <a href="pps.html" class="subject-card">
+            <a href="pps.html" class="subject-card pps">
                 <div class="subject-icon">🌐</div>
                 <div class="subject-name">PPS</div>
                 <div class="subject-description">Počítačové a komunikační sítě</div>
-                <div class="subject-count">150 otázek • 📚 Učení + ✍️ Test</div>
+                <div class="subject-count">101 otázek</div>
             </a>
 
-            <a href="pv.html" class="subject-card">
+            <a href="mp-quiz.html" class="subject-card mp">
+                <div class="subject-icon">🖥️</div>
+                <div class="subject-name">MP</div>
+                <div class="subject-description">Multiplatformní programování (Qt)</div>
+                <div class="subject-count">65 otázek</div>
+            </a>
+
+            <a href="pv.html" class="subject-card pv">
                 <div class="subject-icon">🦠</div>
                 <div class="subject-name">PV</div>
                 <div class="subject-description">Počítačové viry - Flashcards</div>
-                <div class="subject-count">15 kartiček ve 2 kategoriích</div>
+                <div class="subject-count">15 kartiček</div>
             </a>
         </div>
 
