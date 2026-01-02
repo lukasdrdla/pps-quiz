@@ -302,27 +302,32 @@
         }
 
         .section-selector {
-            display: inline-block;
+            display: inline-flex;
+            background: rgba(255,255,255,0.05);
+            border-radius: 30px;
+            padding: 5px;
             margin-right: 20px;
         }
 
-        .section-selector select {
+        .section-btn {
             padding: 10px 20px;
             border-radius: 25px;
-            border: 2px solid rgba(255,255,255,0.2);
-            background: rgba(255,255,255,0.05);
-            color: #fff;
-            font-size: 1rem;
+            border: none;
+            background: transparent;
+            color: #888;
+            font-size: 0.95rem;
             cursor: pointer;
             transition: all 0.3s ease;
+            white-space: nowrap;
         }
 
-        .section-selector select:hover {
-            border-color: rgba(0,217,255,0.5);
+        .section-btn.active {
+            background: linear-gradient(135deg, #ff6b6b, #ffa500);
+            color: #fff;
+            font-weight: bold;
         }
 
-        .section-selector select option {
-            background: #1a1a2e;
+        .section-btn:hover:not(.active) {
             color: #fff;
         }
 
@@ -392,6 +397,29 @@
             .question-card {
                 padding: 20px 15px;
             }
+
+            .quiz-controls {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .mode-toggle,
+            .section-selector {
+                margin-right: 0;
+                width: 100%;
+            }
+
+            .section-btn,
+            .mode-btn {
+                font-size: 0.85rem;
+                padding: 8px 12px;
+            }
+
+            .shuffle-btn,
+            .reset-btn {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -421,11 +449,9 @@
                 <button class="mode-btn" onclick="setMode('test')">✍️ Testovat</button>
             </div>
             <div class="section-selector">
-                <select id="section-select" onchange="changeSection()">
-                    <option value="all">📖 Všechny (1-150)</option>
-                    <option value="1">📘 Sekce 1 (1-100)</option>
-                    <option value="2">📗 Sekce 2 (101-150)</option>
-                </select>
+                <button class="section-btn active" onclick="changeSection('all')">📖 Všechny</button>
+                <button class="section-btn" onclick="changeSection('1')">📘 1-100</button>
+                <button class="section-btn" onclick="changeSection('2')">📗 101-150</button>
             </div>
             <button class="shuffle-btn" onclick="shuffleQuiz()">🔀 Přeházet</button>
             <button class="reset-btn" onclick="resetQuiz()">🔄 Reset</button>
@@ -2191,9 +2217,14 @@
         let answeredQuestions = new Set();
         let currentMode = 'learning'; // 'learning' or 'test'
 
-        function changeSection() {
-            const selector = document.getElementById('section-select');
-            currentSection = selector.value;
+        function changeSection(section) {
+            currentSection = section;
+
+            // Update button states
+            document.querySelectorAll('.section-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
 
             // Filter questions based on section
             if (currentSection === 'all') {
@@ -2243,11 +2274,13 @@
 
                 let optionsHtml = '';
                 if (q.type === 'text') {
+                    const learningAnswerNote = currentMode === 'learning' ? `<p class="multi-note" style="color: #00ff88; margin-top: 10px;">✓ Správná odpověď: <strong>${q.answer}</strong></p>` : '';
                     optionsHtml = `
                         <div class="text-input-container">
                             <input type="text" class="text-input" id="input-${q.id}" placeholder="Zadejte odpověď...">
                             <button class="check-btn" onclick="checkTextAnswer(${q.id})">Zkontrolovat</button>
                         </div>
+                        ${learningAnswerNote}
                         <div class="feedback" id="feedback-${q.id}"></div>
                     `;
                 } else {
