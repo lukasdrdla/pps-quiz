@@ -510,7 +510,7 @@
                 id: 4,
                 text: "Je tento programový kód přenositelný mezi platformami MS Windows a Linux?",
                 type: "single",
-                code: '#include <stdio.h>\n#include <time.h>\nint main() {\n  time_t seconds = time(NULL);\n  printf("%ld hours since January 1, 1970", seconds/3600);\n  printf("Press ENTER to exit...");\n  getch();\n}',
+                code: '#include &lt;stdio.h&gt;\n#include &lt;time.h&gt;\nint main() {\n  time_t seconds = time(NULL);\n  printf("%ld hours since January 1, 1970", seconds/3600);\n  printf("Press ENTER to exit...");\n  getch();\n}',
                 options: [
                     { letter: "a", text: "Pravda" },
                     { letter: "b", text: "Nepravda" }
@@ -1207,6 +1207,78 @@
                     { letter: "e", text: "Členská funkce třídy" }
                 ],
                 answer: ["a", "b", "c", "d", "e"]
+            },
+            {
+                id: 66,
+                text: "Jaká je hlavní nevýhoda interpretovaných programovacích jazyků při vývoji multiplatformních aplikací?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Nižší rychlost běhu programu a vyšší nároky na systémové zdroje" },
+                    { letter: "b", text: "Omezená přenositelnost zdrojového kódu mezi různými operačními systémy" },
+                    { letter: "c", text: "Složitější unifikace vzhledu a ovládání aplikace na různých platformách" },
+                    { letter: "d", text: "Nutnost kompilace programu pro každou cílovou platformu zvlášť" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 67,
+                text: "Kterou z následujících knihoven byste se měli striktně vyvarovat při psaní přenositelného kódu v jazyce C/C++?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "&lt;vector&gt;" },
+                    { letter: "b", text: "&lt;iostream&gt;" },
+                    { letter: "c", text: "&lt;string&gt;" },
+                    { letter: "d", text: "&lt;windows.h&gt;" }
+                ],
+                answer: ["d"]
+            },
+            {
+                id: 68,
+                text: "Jaký hlavní problém řeší nástroj CMake při vývoji softwaru?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Poskytuje multiplatformní knihovny pro tvorbu grafického uživatelského rozhraní" },
+                    { letter: "b", text: "Generuje projektové soubory nebo Makefile pro různá IDE a překladače, čímž usnadňuje přenositelnost projektu" },
+                    { letter: "c", text: "Optimalizuje výsledný kód aplikace pro dosažení maximální rychlosti běhu" },
+                    { letter: "d", text: "Analyzuje zdrojový kód a automaticky opravuje chyby vzniklé při vývoji" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 69,
+                text: "Který příkaz se v konfiguračním souboru CMakeLists.txt používá k definování spustitelného souboru z daných zdrojových kódů?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "project_sources()" },
+                    { letter: "b", text: "add_executable()" },
+                    { letter: "c", text: "target_link_libraries()" },
+                    { letter: "d", text: "add_library()" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 70,
+                text: "Proč je nebezpečné spoléhat na datové typy jako 'int' nebo 'long' bez další specifikace v multiplatformním programování?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Překladač MS VC++ je nepodporuje a vyžaduje specifické alternativy" },
+                    { letter: "b", text: "Jejich použití výrazně zpomaluje běh programu na platformě Linux" },
+                    { letter: "c", text: "Jejich binární velikost se může na různých hardwarových platformách lišit" },
+                    { letter: "d", text: "Nejsou součástí standardu ANSI C/C++" }
+                ],
+                answer: ["c"]
+            },
+            {
+                id: 71,
+                text: "Jakou proměnnou v CMake použijete pro nastavení typu překladu, například na 'Debug' nebo 'Release'?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "SET_BUILD_MODE" },
+                    { letter: "b", text: "CMAKE_BUILD_TYPE" },
+                    { letter: "c", text: "CMAKE_CXX_FLAGS" },
+                    { letter: "d", text: "PROJECT_BUILD_PROFILE" }
+                ],
+                answer: ["b"]
             }
         ];
 

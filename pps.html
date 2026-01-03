@@ -451,7 +451,7 @@
             <div class="section-selector">
                 <button class="section-btn active" onclick="changeSection('all')">📖 Všechny</button>
                 <button class="section-btn" onclick="changeSection('1')">📘 1-100</button>
-                <button class="section-btn" onclick="changeSection('2')">📗 101-150</button>
+                <button class="section-btn" onclick="changeSection('2')">📗 101-200</button>
             </div>
             <button class="shuffle-btn" onclick="shuffleQuiz()">🔀 Přeházet</button>
             <button class="reset-btn" onclick="resetQuiz()">🔄 Reset</button>
@@ -2210,6 +2210,519 @@
                 text: "Jak se jmenuje softwarová součást Windows Microsoft, která realizuje ve Windows NAT (1 slovo):",
                 type: "text",
                 answer: "WinRoute"
+            },
+            {
+                id: 151,
+                text: "Na kterých vrstvách modelu TCP/IP je možné provozovat VPN:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "Transportní" },
+                    { letter: "b", text: "Linkové" },
+                    { letter: "c", text: "Internetové" },
+                    { letter: "d", text: "Aplikační" },
+                    { letter: "e", text: "Fyzické" }
+                ],
+                answer: ["a", "b", "c", "d"]
+            },
+            {
+                id: 152,
+                text: "Co by měl udělat odesílající host po obdržení zprávy od routeru o 'zaslání dat na nevhodný router':",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Měl by si zanést adresu vhodnějšího směrovače do své směrovací tabulky a příště posílat data přes něj" },
+                    { letter: "b", text: "Měl by data znovu odeslat přes stejný router" },
+                    { letter: "c", text: "Měl by data zahodit a počkat na timeout" },
+                    { letter: "d", text: "Měl by kontaktovat DHCP server pro novou konfiguraci" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 153,
+                text: "Co signalizuje UPS, pokud ji zatížím nad stanovený výstupní výkon:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Overload" },
+                    { letter: "b", text: "Overflow" },
+                    { letter: "c", text: "Overpower" },
+                    { letter: "d", text: "Overcurrent" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 154,
+                text: "Co musí udělat router po obdržení datového paketu, když zjistí, že neleží na nejvhodnější cestě k cílovému hostu:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Data přepošle jinému vhodnějšímu směrovači a upozorní odesílatele (ICMP redirect), aby příště posílal data přes jiný router" },
+                    { letter: "b", text: "Data zahodí a pošle ICMP Destination Unreachable" },
+                    { letter: "c", text: "Data přepošle, ale neupozorní odesílatele" },
+                    { letter: "d", text: "Data vrátí zpět odesílateli" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 155,
+                text: "Do jaké maximální rychlosti mobilního zařízení je navržena síť WiMax v km/hod:",
+                type: "text",
+                answer: "150"
+            },
+            {
+                id: 156,
+                text: "Dynamický NAT 1:1 můžeme popsat takto:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "Privátní adresy jsou dynamicky přiřazovány k vnějším adresám" },
+                    { letter: "b", text: "Může šetřit veřejné adresy" },
+                    { letter: "c", text: "Čísla portů se nemění" },
+                    { letter: "d", text: "Privátní adresy nemohou být přístupné z vnější sítě" },
+                    { letter: "e", text: "Čísla portů se mění" }
+                ],
+                answer: ["a", "b", "c", "d"]
+            },
+            {
+                id: 157,
+                text: "Firewally dělíme na:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "Hardwarové" },
+                    { letter: "b", text: "Softwarové" },
+                    { letter: "c", text: "Virtuální" },
+                    { letter: "d", text: "Hybridní" }
+                ],
+                answer: ["a", "b"]
+            },
+            {
+                id: 158,
+                text: "Informace o VLAN se přenáší pomocí:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Tagu" },
+                    { letter: "b", text: "Headeru" },
+                    { letter: "c", text: "Traileru" },
+                    { letter: "d", text: "Payloadu" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 159,
+                text: "Jak se jmenuje (zkratkou) odpovídající blok mobilní sítě GSM BTS u mobilní sítě UMTS:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Node B" },
+                    { letter: "b", text: "Node A" },
+                    { letter: "c", text: "BTS-U" },
+                    { letter: "d", text: "eNodeB" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 160,
+                text: "Jak se jmenuje (zkratkou) radiová přístupová síť u mobilní sítě UMTS:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "UTRAN" },
+                    { letter: "b", text: "GERAN" },
+                    { letter: "c", text: "E-UTRAN" },
+                    { letter: "d", text: "RAN" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 161,
+                text: "Jak se jmenuje řídicí stanice základových stanic v síti UMTS:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "RNC" },
+                    { letter: "b", text: "BSC" },
+                    { letter: "c", text: "MSC" },
+                    { letter: "d", text: "MME" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 162,
+                text: "Jak se jmenuje zpráva odeslaná routerem odesílajícímu hostu o 'zaslání dat na nevhodný router':",
+                type: "single",
+                options: [
+                    { letter: "a", text: "ICMP redirect" },
+                    { letter: "b", text: "ICMP unreachable" },
+                    { letter: "c", text: "ICMP timeout" },
+                    { letter: "d", text: "ICMP echo" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 163,
+                text: "Jaká je dnes nejtypičtější topologie používaná v Internetu mezi autonomními systémy:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Neomezená" },
+                    { letter: "b", text: "Hvězdicová" },
+                    { letter: "c", text: "Kruhová" },
+                    { letter: "d", text: "Stromová" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 164,
+                text: "Jaká je doba trvání 1 TDMA rámce u GSM v ms:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "4.615" },
+                    { letter: "b", text: "0.577" },
+                    { letter: "c", text: "10" },
+                    { letter: "d", text: "1.25" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 165,
+                text: "Jaká je doba trvání 1 TS u GSM v ms:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "0.577" },
+                    { letter: "b", text: "4.615" },
+                    { letter: "c", text: "1" },
+                    { letter: "d", text: "0.125" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 166,
+                text: "Jaká je maximální přenosová rychlost ADSL2++ pro DL řádově v Mb/s:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Desítky" },
+                    { letter: "b", text: "Jednotky" },
+                    { letter: "c", text: "Stovky" },
+                    { letter: "d", text: "Tisíce" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 167,
+                text: "Jaká je maximální přenosová rychlost Dial-up pro DL v kb/s:",
+                type: "text",
+                answer: "56"
+            },
+            {
+                id: 168,
+                text: "Jaká je maximální přenosová rychlost HSCSD pro DL řádově v kb/s:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Desítky" },
+                    { letter: "b", text: "Jednotky" },
+                    { letter: "c", text: "Stovky" },
+                    { letter: "d", text: "Tisíce" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 169,
+                text: "Jaká je maximální přenosová rychlost HSDPA pro DL řádově v Mb/s:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Desítky" },
+                    { letter: "b", text: "Jednotky" },
+                    { letter: "c", text: "Stovky" },
+                    { letter: "d", text: "Tisíce" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 170,
+                text: "Jaká je maximální přenosová rychlost u GPRS na 1 TS v kb/s:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "21.4" },
+                    { letter: "b", text: "43.2" },
+                    { letter: "c", text: "14.4" },
+                    { letter: "d", text: "9.6" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 171,
+                text: "Jaká je maximální přenosová rychlost u HSCSD na 1 TS v kb/s:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "43.2" },
+                    { letter: "b", text: "21.4" },
+                    { letter: "c", text: "14.4" },
+                    { letter: "d", text: "64" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 172,
+                text: "Jaká je maximální přenosová rychlost u přípojky pomocí 230V pro DL řádově v Mb/s:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Tisíce" },
+                    { letter: "b", text: "Stovky" },
+                    { letter: "c", text: "Desítky" },
+                    { letter: "d", text: "Jednotky" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 173,
+                text: "Jaká je maximální přenosová rychlost VDSL2 pro DL řádově v Mb/s:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Stovky" },
+                    { letter: "b", text: "Desítky" },
+                    { letter: "c", text: "Jednotky" },
+                    { letter: "d", text: "Tisíce" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 174,
+                text: "Jaká je maximální přenosová rychlost základní verze ADSL pro DL řádově v Mb/s:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Jednotky" },
+                    { letter: "b", text: "Desítky" },
+                    { letter: "c", text: "Stovky" },
+                    { letter: "d", text: "Tisíce" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 175,
+                text: "Jaká je maximální rychlost pro DL u CDMA Revize A řádově v Mb/s:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Jednotky" },
+                    { letter: "b", text: "Desítky" },
+                    { letter: "c", text: "Stovky" },
+                    { letter: "d", text: "Tisíce" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 176,
+                text: "Jaká je maximální šířka RK u sítě WiMax v MHz:",
+                type: "text",
+                answer: "20"
+            },
+            {
+                id: 177,
+                text: "Jaká je řádově maximální vzdálenost ADSL přípojky od ústředny s DSLAM:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Kilometry" },
+                    { letter: "b", text: "Stovky metrů" },
+                    { letter: "c", text: "Desítky metrů" },
+                    { letter: "d", text: "Desítky kilometrů" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 178,
+                text: "Jaká je šířka RK u GSM v kHz:",
+                type: "text",
+                answer: "200"
+            },
+            {
+                id: 179,
+                text: "Jaká je zkratka protokolu pro vzdálený přístup k adresářům (např. NSS na NetWare):",
+                type: "single",
+                options: [
+                    { letter: "a", text: "LDAP" },
+                    { letter: "b", text: "NFS" },
+                    { letter: "c", text: "SMB" },
+                    { letter: "d", text: "CIFS" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 180,
+                text: "Jaká kódovací schémata používá GSM EDGE:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "MCS1 – MCS9" },
+                    { letter: "b", text: "CS1 – CS4" },
+                    { letter: "c", text: "MCS1 – MCS4" },
+                    { letter: "d", text: "CS1 – CS9" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 181,
+                text: "Jaká maximální přenosová rychlost DL u CATV v ČR:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Stovky Mb/s" },
+                    { letter: "b", text: "Desítky Mb/s" },
+                    { letter: "c", text: "Jednotky Gb/s" },
+                    { letter: "d", text: "Jednotky Mb/s" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 182,
+                text: "Jaké protokoly se používají u VPN na 3. vrstvě modelu TCP/IP:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "IPoverIP" },
+                    { letter: "b", text: "IPsec" },
+                    { letter: "c", text: "GRE" },
+                    { letter: "d", text: "PPTP" },
+                    { letter: "e", text: "L2TP" }
+                ],
+                answer: ["a", "b", "c"]
+            },
+            {
+                id: 183,
+                text: "Jaké přenosové technologie se používají mezi kabelovým modemem CATV a PC:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "Ethernet" },
+                    { letter: "b", text: "USB" },
+                    { letter: "c", text: "WiFi" },
+                    { letter: "d", text: "Bluetooth" }
+                ],
+                answer: ["a", "b"]
+            },
+            {
+                id: 184,
+                text: "Jaké rychlosti v kb/s má D kanál u ISDN:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "16 (BRA)" },
+                    { letter: "b", text: "64 (PRA)" },
+                    { letter: "c", text: "32 (BRA)" },
+                    { letter: "d", text: "128 (PRA)" }
+                ],
+                answer: ["a", "b"]
+            },
+            {
+                id: 185,
+                text: "Jakou přístupovou metodu používá mobilní síť 3. generace:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "WCDMA" },
+                    { letter: "b", text: "TDMA" },
+                    { letter: "c", text: "FDMA" },
+                    { letter: "d", text: "OFDMA" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 186,
+                text: "Jakou rychlost má B kanál u ISDN v kb/s:",
+                type: "text",
+                answer: "64"
+            },
+            {
+                id: 187,
+                text: "Jaký je maximální dosah přístupového bodu u sítě WiMax v husté zástavbě v km:",
+                type: "text",
+                answer: "4"
+            },
+            {
+                id: 188,
+                text: "Jaký je maximální dosah základové stanice NodeB u sítě UMTS v km:",
+                type: "text",
+                answer: "30"
+            },
+            {
+                id: 189,
+                text: "Jaký je maximální vysílací výkon mobilní stanice v pásmu 1800 MHz ve W řádově:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "0.1 (přesně 0.8W)" },
+                    { letter: "b", text: "1" },
+                    { letter: "c", text: "2" },
+                    { letter: "d", text: "0.01" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 190,
+                text: "Jaký je maximální vysílací výkon mobilní stanice v pásmu 900 MHz ve W:",
+                type: "text",
+                answer: "2"
+            },
+            {
+                id: 191,
+                text: "Jaký je odstup mezi příjmem a vysíláním u mobilní stanice v TS:",
+                type: "text",
+                answer: "3"
+            },
+            {
+                id: 192,
+                text: "Jaký typ ICMP zprávy posílá router, když není schopen uplatnit žádnou položku ze směrovací tabulky:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Destination Unreachable" },
+                    { letter: "b", text: "Time Exceeded" },
+                    { letter: "c", text: "Redirect" },
+                    { letter: "d", text: "Source Quench" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 193,
+                text: "Jakým typem záznamu je popsán odkaz na alias (přezdívku) v DNS:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "CNAME" },
+                    { letter: "b", text: "A" },
+                    { letter: "c", text: "MX" },
+                    { letter: "d", text: "PTR" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 194,
+                text: "Je NAT 1:N řešením v nedostatku IP veřejných adres ve verzi 4:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Dočasným" },
+                    { letter: "b", text: "Trvalým" },
+                    { letter: "c", text: "Není řešením" },
+                    { letter: "d", text: "Částečným" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 195,
+                text: "Kolik bitů přeneseme v daném okamžiku 8PSK modulací:",
+                type: "text",
+                answer: "3"
+            },
+            {
+                id: 196,
+                text: "Kolik bitů přeneseme v daném okamžiku GMSK modulací:",
+                type: "text",
+                answer: "1"
+            },
+            {
+                id: 197,
+                text: "Kolik hovorů můžeme u halfrate GSM obecně přenést přes 1 RK:",
+                type: "text",
+                answer: "16"
+            },
+            {
+                id: 198,
+                text: "Kolik multirámců tvoří superrámec u provozního kanálu:",
+                type: "text",
+                answer: "51"
+            },
+            {
+                id: 199,
+                text: "Kolik multirámců tvoří superrámec u signalizačního kanálu:",
+                type: "text",
+                answer: "26"
+            },
+            {
+                id: 200,
+                text: "Kolik superrámců tvoří jeden hyperrámec:",
+                type: "text",
+                answer: "2048"
             }
         ];
 
@@ -2235,7 +2748,7 @@
             } else if (currentSection === '1') {
                 questions = allQuestions.filter(q => q.id >= 1 && q.id <= 100);
             } else if (currentSection === '2') {
-                questions = allQuestions.filter(q => q.id >= 101 && q.id <= 150);
+                questions = allQuestions.filter(q => q.id >= 101 && q.id <= 200);
             }
 
             resetQuiz();
@@ -2481,7 +2994,7 @@
             } else if (currentSection === '1') {
                 questions = allQuestions.filter(q => q.id >= 1 && q.id <= 100);
             } else if (currentSection === '2') {
-                questions = allQuestions.filter(q => q.id >= 101 && q.id <= 150);
+                questions = allQuestions.filter(q => q.id >= 101 && q.id <= 200);
             }
 
             // Reset quiz state
