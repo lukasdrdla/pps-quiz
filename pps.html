@@ -260,9 +260,9 @@
             border: 1px solid rgba(255,71,87,0.3);
         }
 
-        .reset-btn, .shuffle-btn {
-            display: inline-block;
-            margin: 40px 10px;
+        .reset-btn {
+            display: block;
+            margin: 40px auto;
             padding: 15px 40px;
             border-radius: 30px;
             border: 2px solid #00d9ff;
@@ -273,107 +273,271 @@
             transition: all 0.3s ease;
         }
 
-        .shuffle-btn {
-            border-color: #00ff88;
-            color: #00ff88;
-        }
-
         .reset-btn:hover {
             background: #00d9ff;
             color: #1a1a2e;
         }
 
-        .shuffle-btn:hover {
-            background: #00ff88;
+        .settings-panel {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 15px 20px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .settings-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .setting-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .setting-label {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 26px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.1);
+            border-radius: 26px;
+            transition: 0.3s;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background: #fff;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        .toggle-switch input:checked + .toggle-slider {
+            background: linear-gradient(135deg, #00d9ff, #00ff88);
+        }
+
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+
+        .mode-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .mode-btn {
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: 2px solid rgba(255,255,255,0.2);
+            background: transparent;
+            color: #aaa;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .mode-btn:hover {
+            border-color: rgba(0,217,255,0.5);
+        }
+
+        .mode-btn.active {
+            background: linear-gradient(135deg, #00d9ff, #00ff88);
+            border-color: transparent;
             color: #1a1a2e;
+            font-weight: bold;
         }
 
-        .quiz-controls {
-            text-align: center;
-            margin: 30px 0;
-        }
-
-        .mode-toggle {
-            display: inline-flex;
-            background: rgba(255,255,255,0.05);
-            border-radius: 30px;
-            padding: 5px;
-            margin-right: 20px;
-        }
-
-        .section-selector {
-            display: inline-flex;
-            background: rgba(255,255,255,0.05);
-            border-radius: 30px;
-            padding: 5px;
-            margin-right: 20px;
+        .section-buttons {
+            display: flex;
+            gap: 8px;
         }
 
         .section-btn {
-            padding: 10px 20px;
-            border-radius: 25px;
-            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 2px solid rgba(255,255,255,0.2);
             background: transparent;
-            color: #888;
-            font-size: 0.95rem;
+            color: #aaa;
+            font-size: 0.85rem;
             cursor: pointer;
             transition: all 0.3s ease;
             white-space: nowrap;
         }
 
+        .section-btn:hover {
+            border-color: rgba(0,217,255,0.5);
+        }
+
         .section-btn.active {
-            background: linear-gradient(135deg, #ff6b6b, #ffa500);
-            color: #fff;
-            font-weight: bold;
-        }
-
-        .section-btn:hover:not(.active) {
-            color: #fff;
-        }
-
-        .mode-btn {
-            padding: 10px 25px;
-            border-radius: 25px;
-            border: none;
-            background: transparent;
-            color: #888;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .mode-btn.active {
             background: linear-gradient(135deg, #00d9ff, #00ff88);
+            border-color: transparent;
             color: #1a1a2e;
             font-weight: bold;
         }
 
-        .learning-mode .option.correct {
-            border-color: #00ff88 !important;
-            background: rgba(0,255,136,0.15) !important;
+        .range-group {
+            flex: 1;
+            width: 100%;
         }
 
-        .learning-mode .option.correct .option-letter {
-            background: #00ff88 !important;
-            color: #1a1a2e !important;
+        .range-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
         }
 
-        .back-btn {
-            display: inline-block;
-            margin-bottom: 20px;
-            padding: 10px 20px;
-            border-radius: 20px;
-            border: 2px solid rgba(255,255,255,0.3);
-            background: transparent;
+        .range-input-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .range-input-group label {
+            color: #aaa;
+            font-size: 0.85rem;
+        }
+
+        .range-input-group input[type="number"] {
+            width: 70px;
+            padding: 8px 10px;
+            border-radius: 8px;
+            border: 2px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05);
             color: #fff;
-            text-decoration: none;
             font-size: 0.9rem;
+            text-align: center;
+            outline: none;
             transition: all 0.3s ease;
         }
 
-        .back-btn:hover {
+        .range-input-group input[type="number"]:focus {
             border-color: #00d9ff;
+        }
+
+        .range-slider-container {
+            flex: 1;
+            min-width: 150px;
+            max-width: 300px;
+            position: relative;
+            height: 30px;
+        }
+
+        .range-slider-container input[type="range"] {
+            position: absolute;
+            width: 100%;
+            height: 6px;
+            top: 12px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .range-slider-container input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00d9ff, #00ff88);
+            cursor: pointer;
+            pointer-events: auto;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            border: 2px solid #fff;
+        }
+
+        .range-slider-container input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00d9ff, #00ff88);
+            cursor: pointer;
+            pointer-events: auto;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            border: 2px solid #fff;
+        }
+
+        .range-track {
+            position: absolute;
+            width: 100%;
+            height: 6px;
+            top: 12px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+        }
+
+        .range-highlight {
+            position: absolute;
+            height: 6px;
+            top: 12px;
+            background: linear-gradient(90deg, #00d9ff, #00ff88);
+            border-radius: 3px;
+            z-index: 1;
+        }
+
+        .apply-range-btn {
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: none;
+            background: linear-gradient(135deg, #00d9ff, #00ff88);
+            color: #1a1a2e;
+            font-size: 0.9rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .apply-range-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 3px 15px rgba(0,217,255,0.4);
+        }
+
+        .range-display {
             color: #00d9ff;
+            font-size: 0.85rem;
+            margin-left: 10px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #00d9ff;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
         }
 
         .multi-note {
@@ -398,40 +562,85 @@
                 padding: 20px 15px;
             }
 
-            .quiz-controls {
-                display: flex;
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .mode-toggle,
-            .section-selector {
-                margin-right: 0;
-                width: 100%;
-            }
-
             .section-btn,
             .mode-btn {
                 font-size: 0.85rem;
                 padding: 8px 12px;
             }
 
-            .shuffle-btn,
-            .reset-btn {
-                width: 100%;
+            .settings-row {
+                flex-direction: column;
+                align-items: flex-start;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <a href="index.html" class="back-btn">← Zpět na menu</a>
+        <a href="index.html" class="back-link">&larr; Zpět na výběr quizů</a>
+
         <header>
             <h1>PPS Quiz</h1>
-            <p style="color: #888;">Procvičování testových otázek</p>
+            <p style="color: #888;">Počítačové a komunikační sítě</p>
         </header>
 
-        <div class="stats">
+        <div class="settings-panel" id="settings-panel">
+            <div class="settings-row">
+                <div class="setting-group">
+                    <span class="setting-label">Zamíchat otázky</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="shuffle-questions" onchange="restartQuiz()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="setting-group">
+                    <span class="setting-label">Zamíchat odpovědi</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="shuffle-answers" onchange="restartQuiz()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="setting-group">
+                    <span class="setting-label">Režim:</span>
+                    <div class="mode-buttons">
+                        <button class="mode-btn active" data-mode="learn" onclick="setMode('learn')">Učení</button>
+                        <button class="mode-btn" data-mode="test" onclick="setMode('test')">Test</button>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <span class="setting-label">Rychlý výběr:</span>
+                    <div class="section-buttons">
+                        <button class="section-btn active" data-section="all" onclick="setSection('all')">Všechny</button>
+                        <button class="section-btn" data-section="1" onclick="setSection('1')">1-100</button>
+                        <button class="section-btn" data-section="2" onclick="setSection('2')">101-200</button>
+                    </div>
+                </div>
+            </div>
+            <div class="settings-row" style="margin-top: 15px;">
+                <div class="setting-group range-group">
+                    <span class="setting-label">Vlastní rozsah:</span>
+                    <div class="range-controls">
+                        <div class="range-input-group">
+                            <label>Od:</label>
+                            <input type="number" id="range-from" min="1" max="200" value="1" onchange="updateCustomRange()">
+                        </div>
+                        <div class="range-slider-container">
+                            <input type="range" id="range-slider-from" min="1" max="200" value="1" oninput="syncRangeFrom()">
+                            <input type="range" id="range-slider-to" min="1" max="200" value="200" oninput="syncRangeTo()">
+                            <div class="range-track"></div>
+                            <div class="range-highlight" id="range-highlight"></div>
+                        </div>
+                        <div class="range-input-group">
+                            <label>Do:</label>
+                            <input type="number" id="range-to" min="1" max="200" value="200" onchange="updateCustomRange()">
+                        </div>
+                        <button class="apply-range-btn" onclick="applyCustomRange()">Použít</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats" id="stats-panel">
             <div class="stat-box">
                 Správně: <span id="correct-count">0</span>
             </div>
@@ -439,25 +648,13 @@
                 Špatně: <span id="incorrect-count">0</span>
             </div>
             <div class="stat-box">
-                Zbývá: <span id="remaining-count">150</span>
+                Zbývá: <span id="remaining-count">200</span>
             </div>
-        </div>
-
-        <div class="quiz-controls">
-            <div class="mode-toggle">
-                <button class="mode-btn active" onclick="setMode('learning')">📚 Učit se</button>
-                <button class="mode-btn" onclick="setMode('test')">✍️ Testovat</button>
-            </div>
-            <div class="section-selector">
-                <button class="section-btn active" onclick="changeSection('all')">📖 Všechny</button>
-                <button class="section-btn" onclick="changeSection('1')">📘 1-100</button>
-                <button class="section-btn" onclick="changeSection('2')">📗 101-200</button>
-            </div>
-            <button class="shuffle-btn" onclick="shuffleQuiz()">🔀 Přeházet</button>
-            <button class="reset-btn" onclick="resetQuiz()">🔄 Reset</button>
         </div>
 
         <div id="questions-container"></div>
+
+        <button class="reset-btn" onclick="resetQuiz()">Resetovat quiz</button>
     </div>
 
     <script>
@@ -2726,59 +2923,193 @@
             }
         ];
 
-        let allQuestions = [...questions]; // Store all questions
-        let currentSection = 'all';
+        const allQuestions = [...questions]; // Store original questions
         let correctCount = 0;
         let incorrectCount = 0;
         let answeredQuestions = new Set();
-        let currentMode = 'learning'; // 'learning' or 'test'
+        let currentMode = 'learn';
+        let currentSection = 'all';
+        let customRangeFrom = 1;
+        let customRangeTo = 200;
+        let activeQuestions = [];
 
-        function changeSection(section) {
-            currentSection = section;
-
-            // Update button states
-            document.querySelectorAll('.section-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-
-            // Filter questions based on section
-            if (currentSection === 'all') {
-                questions = [...allQuestions];
-            } else if (currentSection === '1') {
-                questions = allQuestions.filter(q => q.id >= 1 && q.id <= 100);
-            } else if (currentSection === '2') {
-                questions = allQuestions.filter(q => q.id >= 101 && q.id <= 200);
+        // Shuffle array (Fisher-Yates)
+        function shuffle(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
             }
-
-            resetQuiz();
+            return arr;
         }
 
         function setMode(mode) {
             currentMode = mode;
-
-            // Update button states
             document.querySelectorAll('.mode-btn').forEach(btn => {
-                btn.classList.remove('active');
+                btn.classList.toggle('active', btn.dataset.mode === mode);
             });
-            event.target.classList.add('active');
+            restartQuiz();
+        }
 
-            // Add/remove learning mode class
-            const container = document.getElementById('questions-container');
-            if (mode === 'learning') {
-                container.classList.add('learning-mode');
-            } else {
-                container.classList.remove('learning-mode');
+        function setSection(section) {
+            currentSection = section;
+            document.querySelectorAll('.section-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.section === section);
+            });
+
+            // Update range inputs based on section
+            if (section === 'all') {
+                updateRangeInputs(1, 200);
+            } else if (section === '1') {
+                updateRangeInputs(1, 100);
+            } else if (section === '2') {
+                updateRangeInputs(101, 200);
             }
 
-            resetQuiz();
+            restartQuiz();
+        }
+
+        function updateRangeInputs(from, to) {
+            customRangeFrom = from;
+            customRangeTo = to;
+            document.getElementById('range-from').value = from;
+            document.getElementById('range-to').value = to;
+            document.getElementById('range-slider-from').value = from;
+            document.getElementById('range-slider-to').value = to;
+            updateRangeHighlight();
+        }
+
+        function syncRangeFrom() {
+            const slider = document.getElementById('range-slider-from');
+            const sliderTo = document.getElementById('range-slider-to');
+            let val = parseInt(slider.value);
+
+            // Don't let from exceed to
+            if (val > parseInt(sliderTo.value)) {
+                val = parseInt(sliderTo.value);
+                slider.value = val;
+            }
+
+            document.getElementById('range-from').value = val;
+            updateRangeHighlight();
+        }
+
+        function syncRangeTo() {
+            const slider = document.getElementById('range-slider-to');
+            const sliderFrom = document.getElementById('range-slider-from');
+            let val = parseInt(slider.value);
+
+            // Don't let to go below from
+            if (val < parseInt(sliderFrom.value)) {
+                val = parseInt(sliderFrom.value);
+                slider.value = val;
+            }
+
+            document.getElementById('range-to').value = val;
+            updateRangeHighlight();
+        }
+
+        function updateCustomRange() {
+            let from = parseInt(document.getElementById('range-from').value) || 1;
+            let to = parseInt(document.getElementById('range-to').value) || 200;
+
+            // Validate range
+            from = Math.max(1, Math.min(200, from));
+            to = Math.max(1, Math.min(200, to));
+
+            if (from > to) {
+                [from, to] = [to, from];
+            }
+
+            document.getElementById('range-from').value = from;
+            document.getElementById('range-to').value = to;
+            document.getElementById('range-slider-from').value = from;
+            document.getElementById('range-slider-to').value = to;
+            updateRangeHighlight();
+        }
+
+        function updateRangeHighlight() {
+            const from = parseInt(document.getElementById('range-slider-from').value);
+            const to = parseInt(document.getElementById('range-slider-to').value);
+            const highlight = document.getElementById('range-highlight');
+
+            const leftPercent = ((from - 1) / 199) * 100;
+            const rightPercent = ((to - 1) / 199) * 100;
+
+            highlight.style.left = leftPercent + '%';
+            highlight.style.width = (rightPercent - leftPercent) + '%';
+        }
+
+        function applyCustomRange() {
+            customRangeFrom = parseInt(document.getElementById('range-from').value);
+            customRangeTo = parseInt(document.getElementById('range-to').value);
+
+            // Deselect preset buttons
+            currentSection = 'custom';
+            document.querySelectorAll('.section-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            restartQuiz();
+        }
+
+        function restartQuiz() {
+            const shuffleQ = document.getElementById('shuffle-questions').checked;
+            const shuffleA = document.getElementById('shuffle-answers').checked;
+
+            // Filter questions based on section or custom range
+            let filteredQuestions;
+            if (currentSection === 'all') {
+                filteredQuestions = [...allQuestions];
+            } else if (currentSection === '1') {
+                filteredQuestions = allQuestions.filter(q => q.id >= 1 && q.id <= 100);
+            } else if (currentSection === '2') {
+                filteredQuestions = allQuestions.filter(q => q.id >= 101 && q.id <= 200);
+            } else {
+                // Custom range
+                filteredQuestions = allQuestions.filter(q => q.id >= customRangeFrom && q.id <= customRangeTo);
+            }
+
+            // Prepare questions with shuffled answers if needed
+            activeQuestions = filteredQuestions.map(q => {
+                const newQ = { ...q };
+                if (shuffleA && q.options) {
+                    const shuffledOpts = shuffle(q.options);
+                    // Re-assign letters
+                    newQ.options = shuffledOpts.map((opt, idx) => ({
+                        ...opt,
+                        originalLetter: opt.letter,
+                        letter: String.fromCharCode(97 + idx)
+                    }));
+                    // Update answer letters
+                    newQ.answer = q.answer.map(ans => {
+                        const newOpt = newQ.options.find(o => o.originalLetter === ans);
+                        return newOpt ? newOpt.letter : ans;
+                    });
+                }
+                return newQ;
+            });
+
+            if (shuffleQ) {
+                activeQuestions = shuffle(activeQuestions);
+            }
+
+            // Reset stats
+            correctCount = 0;
+            incorrectCount = 0;
+            answeredQuestions.clear();
+            document.getElementById('correct-count').textContent = '0';
+            document.getElementById('incorrect-count').textContent = '0';
+            document.getElementById('remaining-count').textContent = activeQuestions.length;
+
+            renderQuestions();
         }
 
         function renderQuestions() {
             const container = document.getElementById('questions-container');
             container.innerHTML = '';
 
-            questions.forEach(q => {
+            activeQuestions.forEach((q, index) => {
                 const card = document.createElement('div');
                 card.className = 'question-card';
                 card.id = `question-${q.id}`;
@@ -2790,33 +3121,31 @@
 
                 let optionsHtml = '';
                 if (q.type === 'text') {
-                    const learningAnswerNote = currentMode === 'learning' ? `<p class="multi-note" style="color: #00ff88; margin-top: 10px;">✓ Správná odpověď: <strong>${q.answer}</strong></p>` : '';
+                    const showAnswer = currentMode === 'learn' ? `<div class="feedback show correct" style="margin-top: 15px;">Správná odpověď: ${q.answer}</div>` : '';
                     optionsHtml = `
                         <div class="text-input-container">
                             <input type="text" class="text-input" id="input-${q.id}" placeholder="Zadejte odpověď...">
                             <button class="check-btn" onclick="checkTextAnswer(${q.id})">Zkontrolovat</button>
                         </div>
-                        ${learningAnswerNote}
+                        ${showAnswer}
                         <div class="feedback" id="feedback-${q.id}"></div>
                     `;
                 } else {
                     const multiNote = q.type === 'multi' ? '<p class="multi-note">Vyberte všechny správné odpovědi a klikněte na tlačítko</p>' : '';
-                    const learningNote = currentMode === 'learning' ? '<p class="multi-note" style="color: #00ff88;">✓ Správné odpovědi jsou zvýrazněny zeleně</p>' : '';
                     optionsHtml = `
                         <div class="options" id="options-${q.id}">
                             ${q.options.map(opt => {
                                 const isCorrect = q.answer.includes(opt.letter);
-                                const correctClass = currentMode === 'learning' && isCorrect ? 'correct' : '';
+                                const correctClass = (currentMode === 'learn' && isCorrect) ? ' correct' : '';
                                 return `
-                                    <div class="option ${correctClass}" data-letter="${opt.letter}" onclick="selectOption(${q.id}, '${opt.letter}', '${q.type}')">
-                                        <span class="option-letter">${opt.letter.toUpperCase()}</span>
-                                        <span class="option-text">${opt.text}</span>
-                                    </div>
-                                `;
-                            }).join('')}
+                                <div class="option${correctClass}" data-letter="${opt.letter}" onclick="selectOption(${q.id}, '${opt.letter}', '${q.type}')">
+                                    <span class="option-letter">${opt.letter.toUpperCase()}</span>
+                                    <span class="option-text">${opt.text}</span>
+                                </div>
+                            `}).join('')}
                         </div>
-                        ${currentMode === 'learning' ? learningNote : multiNote}
-                        ${currentMode === 'test' && q.type === 'multi' ? `<button class="check-btn" style="margin-top: 15px;" onclick="checkMultiAnswer(${q.id})">Zkontrolovat</button>` : ''}
+                        ${multiNote}
+                        ${q.type === 'multi' ? `<button class="check-btn" style="margin-top: 15px;" onclick="checkMultiAnswer(${q.id})">Zkontrolovat</button>` : ''}
                         <div class="feedback" id="feedback-${q.id}"></div>
                     `;
                 }
@@ -2825,7 +3154,7 @@
 
                 card.innerHTML = `
                     <div class="question-header">
-                        <span class="question-number">${q.id}</span>
+                        <span class="question-number">${index + 1}</span>
                         <span class="question-type">${typeLabel}</span>
                     </div>
                     <p class="question-text">${q.text}</p>
@@ -2842,10 +3171,10 @@
 
             const optionsContainer = document.getElementById(`options-${questionId}`);
             const option = optionsContainer.querySelector(`[data-letter="${letter}"]`);
+            const question = activeQuestions.find(q => q.id === questionId);
 
             if (type === 'single') {
                 // Single select - check immediately
-                const question = questions.find(q => q.id === questionId);
                 const isCorrect = question.answer.includes(letter);
 
                 answeredQuestions.add(questionId);
@@ -2872,7 +3201,7 @@
         function checkMultiAnswer(questionId) {
             if (answeredQuestions.has(questionId)) return;
 
-            const question = questions.find(q => q.id === questionId);
+            const question = activeQuestions.find(q => q.id === questionId);
             const optionsContainer = document.getElementById(`options-${questionId}`);
             const selectedOptions = optionsContainer.querySelectorAll('.option.selected');
             const selectedLetters = Array.from(selectedOptions).map(opt => opt.dataset.letter);
@@ -2899,7 +3228,7 @@
         function checkTextAnswer(questionId) {
             if (answeredQuestions.has(questionId)) return;
 
-            const question = questions.find(q => q.id === questionId);
+            const question = activeQuestions.find(q => q.id === questionId);
             const input = document.getElementById(`input-${questionId}`);
             const userAnswer = input.value.trim();
 
@@ -2936,73 +3265,17 @@
                 incorrectCount++;
                 document.getElementById('incorrect-count').textContent = incorrectCount;
             }
-            document.getElementById('remaining-count').textContent = questions.length - answeredQuestions.size;
+            document.getElementById('remaining-count').textContent = activeQuestions.length - answeredQuestions.size;
         }
 
         function resetQuiz() {
-            correctCount = 0;
-            incorrectCount = 0;
-            answeredQuestions.clear();
-            document.getElementById('correct-count').textContent = '0';
-            document.getElementById('incorrect-count').textContent = '0';
-            document.getElementById('remaining-count').textContent = questions.length;
-            renderQuestions();
+            restartQuiz();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Shuffle array using Fisher-Yates algorithm
-        function shuffleArray(array) {
-            const newArray = [...array];
-            for (let i = newArray.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-            }
-            return newArray;
-        }
-
-        function shuffleQuiz() {
-            // Shuffle all questions in allQuestions first
-            allQuestions = shuffleArray(allQuestions);
-
-            // Shuffle options for each question in allQuestions (but keep correct answers mapped)
-            allQuestions.forEach(q => {
-                if (q.options && q.options.length > 0) {
-                    // Store which texts are correct
-                    const correctTexts = q.answer.map(letter =>
-                        q.options.find(opt => opt.letter === letter).text
-                    );
-
-                    // Shuffle options
-                    q.options = shuffleArray(q.options);
-
-                    // Reassign letters a, b, c, d...
-                    const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'];
-                    q.options.forEach((opt, index) => {
-                        opt.letter = letters[index];
-                    });
-
-                    // Update correct answers to new letters
-                    q.answer = q.options
-                        .filter(opt => correctTexts.includes(opt.text))
-                        .map(opt => opt.letter);
-                }
-            });
-
-            // Re-filter questions based on current section
-            if (currentSection === 'all') {
-                questions = [...allQuestions];
-            } else if (currentSection === '1') {
-                questions = allQuestions.filter(q => q.id >= 1 && q.id <= 100);
-            } else if (currentSection === '2') {
-                questions = allQuestions.filter(q => q.id >= 101 && q.id <= 200);
-            }
-
-            // Reset quiz state
-            resetQuiz();
-        }
-
-        // Initialize
-        renderQuestions();
+        // Start quiz immediately on page load
+        updateRangeHighlight();
+        restartQuiz();
     </script>
 </body>
 </html>
