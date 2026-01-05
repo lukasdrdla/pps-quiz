@@ -760,7 +760,7 @@
                         <button class="section-btn active" data-section="all" onclick="setSection('all')">Všechny</button>
                         <button class="section-btn" data-section="1" onclick="setSection('1')">1-100</button>
                         <button class="section-btn" data-section="2" onclick="setSection('2')">101-200</button>
-                        <button class="section-btn" data-section="3" onclick="setSection('3')">201-301</button>
+                        <button class="section-btn" data-section="3" onclick="setSection('3')">201-338</button>
                     </div>
                 </div>
             </div>
@@ -770,17 +770,17 @@
                     <div class="range-controls">
                         <div class="range-input-group">
                             <label>Od:</label>
-                            <input type="number" id="range-from" min="1" max="301" value="1" onchange="updateCustomRange()">
+                            <input type="number" id="range-from" min="1" max="338" value="1" onchange="updateCustomRange()">
                         </div>
                         <div class="range-slider-container">
-                            <input type="range" id="range-slider-from" min="1" max="301" value="1" oninput="syncRangeFrom()">
-                            <input type="range" id="range-slider-to" min="1" max="301" value="301" oninput="syncRangeTo()">
+                            <input type="range" id="range-slider-from" min="1" max="338" value="1" oninput="syncRangeFrom()">
+                            <input type="range" id="range-slider-to" min="1" max="338" value="338" oninput="syncRangeTo()">
                             <div class="range-track"></div>
                             <div class="range-highlight" id="range-highlight"></div>
                         </div>
                         <div class="range-input-group">
                             <label>Do:</label>
-                            <input type="number" id="range-to" min="1" max="301" value="301" onchange="updateCustomRange()">
+                            <input type="number" id="range-to" min="1" max="338" value="338" onchange="updateCustomRange()">
                         </div>
                         <button class="apply-range-btn" onclick="applyCustomRange()">Použít</button>
                     </div>
@@ -827,7 +827,7 @@
                 Špatně: <span id="incorrect-count">0</span>
             </div>
             <div class="stat-box">
-                Zbývá: <span id="remaining-count">301</span>
+                Zbývá: <span id="remaining-count">338</span>
             </div>
         </div>
 
@@ -4223,6 +4223,432 @@
                     { letter: "d", text: "Pouze přes webové rozhraní" }
                 ],
                 answer: ["a", "b"]
+            },
+            {
+                id: 302,
+                text: "Každá vývojová verze Windows má odlišného NetWare klienta:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Pravda" },
+                    { letter: "b", text: "Nepravda" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 303,
+                text: "Které základní konfigurační soubory používá vlastní NetWare na serveru?",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "AUTOEXEC.NCF" },
+                    { letter: "b", text: "STARTUP.NCF" },
+                    { letter: "c", text: "CONFIG.SYS" },
+                    { letter: "d", text: "BOOT.INI" }
+                ],
+                answer: ["a", "b"]
+            },
+            {
+                id: 304,
+                text: "NetWare na serveru se spouští:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Z DOSu" },
+                    { letter: "b", text: "Z BIOSu přímo" },
+                    { letter: "c", text: "Z Windows" },
+                    { letter: "d", text: "Z Linuxu" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 305,
+                text: "Jaké typy kontejnerových objektů u Novellu od verze 4 znáte?",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "Root" },
+                    { letter: "b", text: "Země" },
+                    { letter: "c", text: "Organizační jednotka" },
+                    { letter: "d", text: "Organizace" },
+                    { letter: "e", text: "Uživatel" },
+                    { letter: "f", text: "Skupina" }
+                ],
+                answer: ["a", "b", "c", "d"]
+            },
+            {
+                id: 306,
+                text: "U kterých souborů vytváří NetWare u klasického souborového systému Turbo FAT?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "U souborů větších jak 64 AB" },
+                    { letter: "b", text: "U souborů větších jak 32 AB" },
+                    { letter: "c", text: "U všech souborů" },
+                    { letter: "d", text: "U souborů menších jak 64 AB" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 307,
+                text: "Síť se softwarem Netware je síť typu client to server:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Pravda" },
+                    { letter: "b", text: "Nepravda" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 308,
+                text: "Jak se jmenuje systémová databáze Netware ve verzi 6?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "eDirectory" },
+                    { letter: "b", text: "NDS" },
+                    { letter: "c", text: "Active Directory" },
+                    { letter: "d", text: "LDAP" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 309,
+                text: "Klasický souborový systém Netware na serveru je založen na technologii:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "DET, FAT a turbo FAT" },
+                    { letter: "b", text: "NTFS" },
+                    { letter: "c", text: "EXT4" },
+                    { letter: "d", text: "NSS" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 310,
+                text: "Které typy souborů jsou spustitelné (strojový kód) nebo proveditelné (dávkové soubory) na NetWare serveru?",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "NCF" },
+                    { letter: "b", text: "EXE" },
+                    { letter: "c", text: "BAT" },
+                    { letter: "d", text: "COM" }
+                ],
+                answer: ["a", "b"]
+            },
+            {
+                id: 311,
+                text: "Do které verze doznal Novell Netware zásadních změn ve struktuře?",
+                type: "text",
+                answer: "4"
+            },
+            {
+                id: 312,
+                text: "Kolik variant připojení tiskárny u klasického tiskového systému na Netware znáte? (číslo)",
+                type: "text",
+                answer: "4"
+            },
+            {
+                id: 313,
+                text: "Licence NetWare 6.x jsou vázány na server:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Pravda" },
+                    { letter: "b", text: "Nepravda" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 314,
+                text: "Jaký algoritmus používá NetWare u tabulky DET pro rychlý odhad umístění adresářové položky?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Hashovací" },
+                    { letter: "b", text: "Binární vyhledávání" },
+                    { letter: "c", text: "Lineární vyhledávání" },
+                    { letter: "d", text: "B-tree" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 315,
+                text: "Jaké typy koncových objektů u Novellu od verze 4 znáte?",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "Tiskárna" },
+                    { letter: "b", text: "Logický disk" },
+                    { letter: "c", text: "Skupina" },
+                    { letter: "d", text: "Tisková fronta" },
+                    { letter: "e", text: "Šablona" },
+                    { letter: "f", text: "Tiskový server" },
+                    { letter: "g", text: "Server" },
+                    { letter: "h", text: "Uživatel" }
+                ],
+                answer: ["a", "b", "c", "d", "e", "f", "g", "h"]
+            },
+            {
+                id: 316,
+                text: "Jaké jsou výhody NDPS pro tisky na NetWare?",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "Integrace se službami NDS" },
+                    { letter: "b", text: "Jednoduchá centralizovaná správa tiskových prostředků" },
+                    { letter: "c", text: "Automatická instalace ovladačů tiskáren" },
+                    { letter: "d", text: "Nové volby pro konfiguraci tiskáren a tisk. jobů" },
+                    { letter: "e", text: "Obousměrná výměna informací mezi klienty a tiskárnami" },
+                    { letter: "f", text: "Nezávislost na komunikačním protokolu" }
+                ],
+                answer: ["a", "b", "c", "d", "e", "f"]
+            },
+            {
+                id: 317,
+                text: "Správná posloupnost bloků v NetWare NSS souborového systému je:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Fyzické disky – diskové oblasti NSS – paměťové fondy – logické disky" },
+                    { letter: "b", text: "Logické disky – paměťové fondy – diskové oblasti NSS – fyzické disky" },
+                    { letter: "c", text: "Diskové oblasti NSS – fyzické disky – logické disky – paměťové fondy" },
+                    { letter: "d", text: "Paměťové fondy – logické disky – fyzické disky – diskové oblasti NSS" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 318,
+                text: "Z kterých součástí se skládá NetWare klient ODI pro IPX/SPX protokol?",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "Link Support Layer" },
+                    { letter: "b", text: "VLM moduly" },
+                    { letter: "c", text: "Samostatný ovladač síťové karty" },
+                    { letter: "d", text: "TCP/IP stack" }
+                ],
+                answer: ["a", "b", "c"]
+            },
+            {
+                id: 319,
+                text: "Uveďte zkratku novějšího tiskového systému na NetWare:",
+                type: "text",
+                answer: "NDPS"
+            },
+            {
+                id: 320,
+                text: "Jakou modulaci používají 3G sítě?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "UMTS (W-CDMA)" },
+                    { letter: "b", text: "GSM (TDMA)" },
+                    { letter: "c", text: "LTE (OFDMA)" },
+                    { letter: "d", text: "CDMA2000" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 321,
+                text: "Když používáme VPN k posílání citlivých firemních dat, tak šifrování:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "By mělo být" },
+                    { letter: "b", text: "Není potřeba" },
+                    { letter: "c", text: "Je volitelné" },
+                    { letter: "d", text: "Zpomaluje přenos" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 322,
+                text: "Můžou spolu v jednom AS být RIP a RIP2?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Ano" },
+                    { letter: "b", text: "Ne" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 323,
+                text: "Definuj agregaci:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Poměr mezi očekávanou skutečnou zátěží a součtem teoretických maximálních zátěží, uvádí se jako poměr 1:X" },
+                    { letter: "b", text: "Součet všech přenosových rychlostí v síti" },
+                    { letter: "c", text: "Počet současně připojených uživatelů" },
+                    { letter: "d", text: "Maximální propustnost linky" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 324,
+                text: "Pokud v jednom podniku chceme komunikovat mezi dvěma VLAN, adresy v obou sítích:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Mohou být stejné" },
+                    { letter: "b", text: "Musí být odlišné" },
+                    { letter: "c", text: "Musí být ze stejné podsítě" },
+                    { letter: "d", text: "Nesmí se překrývat" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 325,
+                text: "Abych mohl mít přístup do NetWare svazku z aplikací pod Windows:",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "Namapovaný na DOSovské písmeno" },
+                    { letter: "b", text: "Musím mít k němu odpovídající přístupová práva" },
+                    { letter: "c", text: "Musí být namontovaný" },
+                    { letter: "d", text: "Musím mít administrátorská práva" }
+                ],
+                answer: ["a", "b", "c"]
+            },
+            {
+                id: 326,
+                text: "Jaké výhody má NSS NetWare oproti klasickému souborovému systému?",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "Nezávislost velikostí RAM na velikosti logických disků" },
+                    { letter: "b", text: "Rychlý přístup k datům bez ohledu na velikost souboru" },
+                    { letter: "c", text: "Přímá podpora dalších souborových systémů" },
+                    { letter: "d", text: "Podpora nových generací paměťových médií" },
+                    { letter: "e", text: "Výrazné zvýšení max. limitů" },
+                    { letter: "f", text: "Velmi rychlé montování, odmontování a oprava" },
+                    { letter: "g", text: "Možnost využít veškerý nevyužitý diskový prostor" }
+                ],
+                answer: ["a", "b", "c", "d", "e", "f", "g"]
+            },
+            {
+                id: 327,
+                text: "Server s NetWare je nededikovaný server:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Pravda" },
+                    { letter: "b", text: "Nepravda" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 328,
+                text: "Které poštovní protokoly jsou určeny k přenosu pošty mezi poštovními servery?",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "SMTP" },
+                    { letter: "b", text: "POP3" },
+                    { letter: "c", text: "IMAP" },
+                    { letter: "d", text: "HTTP" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 329,
+                text: "Řádově maximální rychlost DL u 5G sítě v Gb/s:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Desítky" },
+                    { letter: "b", text: "Jednotky" },
+                    { letter: "c", text: "Stovky" },
+                    { letter: "d", text: "Tisíce" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 330,
+                text: "VPN vytvářím prostřednictvím technologie:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Síťový tunel" },
+                    { letter: "b", text: "Firewall" },
+                    { letter: "c", text: "Proxy server" },
+                    { letter: "d", text: "NAT" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 331,
+                text: "Jaká je řádově rychlost v Mb/s u LTE-Advanced?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Desítky" },
+                    { letter: "b", text: "Jednotky" },
+                    { letter: "c", text: "Stovky" },
+                    { letter: "d", text: "Tisíce" }
+                ],
+                answer: ["c"]
+            },
+            {
+                id: 332,
+                text: "Musí mít dvě propojené VLAN odlišné adresy?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Musí" },
+                    { letter: "b", text: "Nemusí" }
+                ],
+                answer: ["b"]
+            },
+            {
+                id: 333,
+                text: "Které parametry musí přidělit DHCP server koncovému zařízení, aby mohlo pracovat ve více LAN pod protokolem TCP/IP bez připojení do internetu, bez využití jmenné služby a časové synchronizace?",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "IP adresu" },
+                    { letter: "b", text: "IP adresu brány" },
+                    { letter: "c", text: "Síťovou masku / submasku" },
+                    { letter: "d", text: "DNS server" },
+                    { letter: "e", text: "NTP server" }
+                ],
+                answer: ["a", "b", "c"]
+            },
+            {
+                id: 334,
+                text: "Jaké typy sítí provozuje O2?",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "5G" },
+                    { letter: "b", text: "LTE" },
+                    { letter: "c", text: "UMTS" },
+                    { letter: "d", text: "CDMA" }
+                ],
+                answer: ["a", "b", "c"]
+            },
+            {
+                id: 335,
+                text: "Kteří operátoři podporují UMTS sítě?",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "O2" },
+                    { letter: "b", text: "Vodafone" },
+                    { letter: "c", text: "T-Mobile" },
+                    { letter: "d", text: "Nordic (dříve U:fon)" }
+                ],
+                answer: ["a", "b", "c", "d"]
+            },
+            {
+                id: 336,
+                text: "Za jakých podmínek může fungovat SMTP šifrování?",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Musí být šifrované oba konce" },
+                    { letter: "b", text: "Stačí šifrovaný odesílatel" },
+                    { letter: "c", text: "Stačí šifrovaný příjemce" },
+                    { letter: "d", text: "Šifrování není možné" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 337,
+                text: "Složení olověného akumulátoru obsahuje:",
+                type: "single",
+                options: [
+                    { letter: "a", text: "Olovo (Pb) - rovnice obsahující olovo" },
+                    { letter: "b", text: "Lithium (Li)" },
+                    { letter: "c", text: "Nikl (Ni)" },
+                    { letter: "d", text: "Kadmium (Cd)" }
+                ],
+                answer: ["a"]
+            },
+            {
+                id: 338,
+                text: "Jaké pásma využívá GSM v Americe?",
+                type: "multi",
+                options: [
+                    { letter: "a", text: "850 MHz" },
+                    { letter: "b", text: "1900 MHz" },
+                    { letter: "c", text: "900 MHz" },
+                    { letter: "d", text: "1800 MHz" }
+                ],
+                answer: ["a", "b"]
             }
         ];
 
@@ -4233,7 +4659,7 @@
         let currentMode = 'learn';
         let currentSection = 'all';
         let customRangeFrom = 1;
-        let customRangeTo = 301;
+        let customRangeTo = 338;
         let activeQuestions = [];
 
         // Shuffle array (Fisher-Yates)
@@ -4262,13 +4688,13 @@
 
             // Update range inputs based on section
             if (section === 'all') {
-                updateRangeInputs(1, 301);
+                updateRangeInputs(1, 338);
             } else if (section === '1') {
                 updateRangeInputs(1, 100);
             } else if (section === '2') {
                 updateRangeInputs(101, 200);
             } else if (section === '3') {
-                updateRangeInputs(201, 301);
+                updateRangeInputs(201, 338);
             }
 
             restartQuiz();
@@ -4319,8 +4745,8 @@
             let to = parseInt(document.getElementById('range-to').value) || 200;
 
             // Validate range
-            from = Math.max(1, Math.min(301, from));
-            to = Math.max(1, Math.min(301, to));
+            from = Math.max(1, Math.min(338, from));
+            to = Math.max(1, Math.min(338, to));
 
             if (from > to) {
                 [from, to] = [to, from];
@@ -4371,7 +4797,7 @@
             } else if (currentSection === '2') {
                 filteredQuestions = allQuestions.filter(q => q.id >= 101 && q.id <= 200);
             } else if (currentSection === '3') {
-                filteredQuestions = allQuestions.filter(q => q.id >= 201 && q.id <= 301);
+                filteredQuestions = allQuestions.filter(q => q.id >= 201 && q.id <= 338);
             } else {
                 // Custom range
                 filteredQuestions = allQuestions.filter(q => q.id >= customRangeFrom && q.id <= customRangeTo);
